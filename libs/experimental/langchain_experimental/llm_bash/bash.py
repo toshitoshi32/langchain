@@ -130,8 +130,7 @@ class BashProcess:
         try:
             output = subprocess.run(
                 command,
-                shell=True,
-                check=True,
+                shell=False, check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
             ).stdout.decode()
