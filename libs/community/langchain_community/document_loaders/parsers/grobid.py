@@ -125,8 +125,8 @@ class GrobidParser(BaseBlobParser):
         file_path = blob.source
         if file_path is None:
             raise ValueError("blob.source cannot be None.")
-        pdf = open(file_path, "rb")
-        files = {"input": (file_path, pdf, "application/pdf", {"Expires": "0"})}
+        with open(file_path, "rb") as pdf:
+            files = {"input": (file_path, pdf, "application/pdf", {"Expires": "0"})}
         try:
             data: Dict[str, Union[str, List[str]]] = {}
             for param in ["generateIDs", "consolidateHeader", "segmentSentences"]:
