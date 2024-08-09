@@ -160,7 +160,7 @@ class MintbaseDocumentLoader(BaseLoader):
 
             url = f"https://graph.mintbase.xyz/{self.blockchainType}"
 
-            response = requests.post(url, headers=headers, data=json.dumps(data))
+            response = requests.post(url, headers=headers, data=json.dumps(data), timeout=60)
 
             if response.status_code != 200:
                 raise ValueError(
@@ -231,7 +231,7 @@ class MintbaseDocumentLoader(BaseLoader):
 
             url = f"https://graph.mintbase.xyz/{self.blockchainType}"
 
-            response = requests.post(url, headers=headers, data=json.dumps(data))
+            response = requests.post(url, headers=headers, data=json.dumps(data), timeout=60)
 
             if response.status_code != 200:
                 raise ValueError(

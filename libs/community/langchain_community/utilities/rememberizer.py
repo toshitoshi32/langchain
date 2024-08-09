@@ -28,8 +28,8 @@ class RememberizerAPIWrapper(BaseModel):
         """Search for a query in the Rememberizer API."""
         url = f"https://api.rememberizer.ai/api/v1/documents/search?q={query}&n={self.top_k_results}"
         response = requests.get(
-            url, headers={"x-api-key": cast(str, self.rememberizer_api_key)}
-        )
+            url, headers={"x-api-key": cast(str, self.rememberizer_api_key)}, 
+        timeout=60)
         data = response.json()
 
         if response.status_code != 200:

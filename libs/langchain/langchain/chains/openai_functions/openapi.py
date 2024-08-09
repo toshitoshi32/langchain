@@ -191,7 +191,7 @@ def openapi_spec_to_openai_fn(
                 _kwargs["params"].update(params)
             else:
                 _kwargs["params"] = params
-        return requests.request(method, url, **_kwargs)
+        return requests.request(method, url, **_kwargs, timeout=60)
 
     return functions, default_call_api
 

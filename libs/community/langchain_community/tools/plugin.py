@@ -38,7 +38,7 @@ class AIPlugin(BaseModel):
     @classmethod
     def from_url(cls, url: str) -> AIPlugin:
         """Instantiate AIPlugin from a URL."""
-        response = requests.get(url).json()
+        response = requests.get(url, timeout=60).json()
         return cls(**response)
 
 
@@ -79,7 +79,7 @@ class AIPluginTool(BaseTool):
             f"You should only call this ONCE! What is the "
             f"{plugin.name_for_human} API useful for? "
         ) + plugin.description_for_human
-        open_api_spec_str = requests.get(plugin.api.url).text
+        open_api_spec_str = requests.get(plugin.api.url, timeout=60).text
         open_api_spec = marshal_spec(open_api_spec_str)
         api_spec = (
             f"Usage Guide: {plugin.description_for_model}\n\n"

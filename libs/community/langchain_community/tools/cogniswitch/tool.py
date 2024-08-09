@@ -76,7 +76,7 @@ class CogniswitchKnowledgeRequest(BaseTool):
         }
 
         data = {"query": query}
-        response = requests.post(self.api_url, headers=headers, verify=False, data=data)
+        response = requests.post(self.api_url, headers=headers, verify=False, data=data, timeout=60)
         return response.json()
 
 
@@ -144,7 +144,7 @@ class CogniswitchKnowledgeStatus(BaseTool):
             headers=headers,
             params=params,
             verify=False,
-        )
+        timeout=60)
         if response.status_code == 200:
             source_info = response.json()
             source_data = dict(source_info[-1])
@@ -286,7 +286,7 @@ class CogniswitchKnowledgeSourceFile(BaseTool):
             verify=False,
             data=data,
             files=files,
-        )
+        timeout=60)
         if response.status_code == 200:
             return response.json()
         else:
@@ -392,7 +392,7 @@ class CogniswitchKnowledgeSourceURL(BaseTool):
                 headers=headers,
                 verify=False,
                 data=data,
-            )
+            timeout=60)
         if response.status_code == 200:
             return response.json()
         else:

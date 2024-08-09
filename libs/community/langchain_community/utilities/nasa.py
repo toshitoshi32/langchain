@@ -19,21 +19,21 @@ class NasaAPIWrapper(BaseModel):
         else:
             queryText = ""
         response = requests.get(
-            IMAGE_AND_VIDEO_LIBRARY_URL + "/search?q=" + queryText, params=params
-        )
+            IMAGE_AND_VIDEO_LIBRARY_URL + "/search?q=" + queryText, params=params, 
+        timeout=60)
         data = response.json()
         return data
 
     def get_media_metadata_manifest(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/asset/" + query)
+        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/asset/" + query, timeout=60)
         return response.json()
 
     def get_media_metadata_location(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/metadata/" + query)
+        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/metadata/" + query, timeout=60)
         return response.json()
 
     def get_video_captions_location(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/captions/" + query)
+        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/captions/" + query, timeout=60)
         return response.json()
 
     def run(self, mode: str, query: str) -> str:

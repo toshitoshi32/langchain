@@ -61,7 +61,7 @@ class TavilySearchAPIWrapper(BaseModel):
             # type: ignore
             f"{TAVILY_API_URL}/search",
             json=params,
-        )
+        timeout=60)
         response.raise_for_status()
         return response.json()
 

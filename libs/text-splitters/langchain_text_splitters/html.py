@@ -77,7 +77,7 @@ class HTMLHeaderTextSplitter:
         Args:
             url: web URL
         """
-        r = requests.get(url)
+        r = requests.get(url, timeout=60)
         return self.split_text_from_file(BytesIO(r.content))
 
     def split_text(self, text: str) -> List[Document]:

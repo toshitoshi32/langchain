@@ -209,7 +209,7 @@ class Clarifai(VectorStore):
         def hit_to_document(hit: resources_pb2.Hit) -> Tuple[Document, float]:
             metadata = json_format.MessageToDict(hit.input.data.metadata)
             h = dict(self._auth.metadata)
-            request = requests.get(hit.input.data.text.url, headers=h)
+            request = requests.get(hit.input.data.text.url, headers=h, timeout=60)
 
             # override encoding by real educated guess as provided by chardet
             request.encoding = request.apparent_encoding

@@ -242,7 +242,7 @@ class YouSearchAPIWrapper(BaseModel):
             f"{YOU_API_URL}/{self.endpoint_type}",
             params=params,
             headers=headers,
-        )
+        timeout=60)
         response.raise_for_status()
         return response.json()
 

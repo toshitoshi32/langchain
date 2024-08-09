@@ -42,7 +42,7 @@ class _MinimaxEndpointClient(BaseModel):
 
     def post(self, request: Any) -> Any:
         headers = {"Authorization": f"Bearer {self.api_key.get_secret_value()}"}
-        response = requests.post(self.api_url, headers=headers, json=request)
+        response = requests.post(self.api_url, headers=headers, json=request, timeout=60)
         # TODO: error handling and automatic retries
         if not response.ok:
             raise ValueError(f"HTTP {response.status_code} error: {response.text}")

@@ -40,7 +40,7 @@ class SceneXplainAPIWrapper(BaseSettings, BaseModel):
                 }
             ]
         }
-        response = requests.post(self.scenex_api_url, headers=headers, json=payload)
+        response = requests.post(self.scenex_api_url, headers=headers, json=payload, timeout=60)
         response.raise_for_status()
         result = response.json().get("result", [])
         img = result[0] if result else {}

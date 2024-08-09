@@ -74,7 +74,7 @@ class ZillizCloudPipelineRetriever(BaseRetriever):
             },
         }
 
-        response = requests.post(url, headers=headers, json=params)
+        response = requests.post(url, headers=headers, json=params, timeout=60)
         if response.status_code != 200:
             raise RuntimeError(response.text)
         response_dict = response.json()
@@ -126,7 +126,7 @@ class ZillizCloudPipelineRetriever(BaseRetriever):
         params = {"data": {"text_list": texts}}
         params["data"].update(metadata)
 
-        response = requests.post(url, headers=headers, json=params)
+        response = requests.post(url, headers=headers, json=params, timeout=60)
         if response.status_code != 200:
             raise Exception(response.text)
         response_dict = response.json()
@@ -169,7 +169,7 @@ class ZillizCloudPipelineRetriever(BaseRetriever):
         metadata = {} if metadata is None else metadata
         params["data"].update(metadata)
 
-        response = requests.post(url, headers=headers, json=params)
+        response = requests.post(url, headers=headers, json=params, timeout=60)
         if response.status_code != 200:
             raise Exception(response.text)
         response_dict = response.json()
@@ -205,7 +205,7 @@ class ZillizCloudPipelineRetriever(BaseRetriever):
 
         params = {"data": {key: value}}
 
-        response = requests.post(url, headers=headers, json=params)
+        response = requests.post(url, headers=headers, json=params, timeout=60)
         if response.status_code != 200:
             raise Exception(response.text)
         response_dict = response.json()

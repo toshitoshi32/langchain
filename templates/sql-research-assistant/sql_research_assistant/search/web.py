@@ -25,7 +25,7 @@ ddg_search = DuckDuckGoSearchAPIWrapper()
 def scrape_text(url: str):
     # Send a GET request to the webpage
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
 
         # Check if the request was successful
         if response.status_code == 200:

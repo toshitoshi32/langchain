@@ -110,7 +110,7 @@ class GitHubIssuesLoader(BaseGitHubLoader):
         """
         url: Optional[str] = self.url
         while url:
-            response = requests.get(url, headers=self.headers)
+            response = requests.get(url, headers=self.headers, timeout=60)
             response.raise_for_status()
             issues = response.json()
             for issue in issues:
@@ -188,7 +188,7 @@ class GithubFileLoader(BaseGitHubLoader, ABC):
             f"{self.github_api_url}/repos/{self.repo}/git/trees/"
             f"{self.branch}?recursive=1"
         )
-        response = requests.get(base_url, headers=self.headers)
+        response = requests.get(base_url, headers=self.headers, timeout=60)
         response.raise_for_status()
         all_files = response.json()["tree"]
         """ one element in all_files
@@ -208,7 +208,7 @@ class GithubFileLoader(BaseGitHubLoader, ABC):
 
     def get_file_content_by_path(self, path: str) -> str:
         base_url = f"{self.github_api_url}/repos/{self.repo}/contents/{path}"
-        response = requests.get(base_url, headers=self.headers)
+        response = requests.get(base_url, headers=self.headers, timeout=60)
         response.raise_for_status()
 
         if isinstance(response.json(), dict):

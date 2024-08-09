@@ -128,7 +128,7 @@ class ActionServerToolkit(BaseModel):
         # Fetch and format the API spec
         try:
             spec_url = urljoin(self.url, "openapi.json")
-            response = requests.get(spec_url)
+            response = requests.get(spec_url, timeout=60)
             json_spec = response.json()
             api_spec = reduce_openapi_spec(self.url, json_spec)
         except Exception:
@@ -243,6 +243,6 @@ class ActionServerToolkit(BaseModel):
 
         url = urljoin(self.url, endpoint)
 
-        response = requests.post(url, headers=headers, data=json.dumps(data))
+        response = requests.post(url, headers=headers, data=json.dumps(data), timeout=60)
 
         return response.text

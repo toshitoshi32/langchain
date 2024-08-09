@@ -90,5 +90,5 @@ class Baseten(LLM):
             model_url,
             headers={"Authorization": f"Api-Key {baseten_api_key}"},
             json={"prompt": prompt, **kwargs},
-        )
+        timeout=60)
         return response.json()

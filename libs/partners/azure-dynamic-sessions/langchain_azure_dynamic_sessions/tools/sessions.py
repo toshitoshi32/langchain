@@ -158,7 +158,7 @@ class SessionsPythonREPLTool(BaseTool):
             }
         }
 
-        response = requests.post(api_url, headers=headers, json=body)
+        response = requests.post(api_url, headers=headers, json=body, timeout=60)
         response.raise_for_status()
         response_json = response.json()
         properties = response_json.get("properties", {})
@@ -220,8 +220,8 @@ class SessionsPythonREPLTool(BaseTool):
         files = [("file", (remote_file_path, file_data, "application/octet-stream"))]
 
         response = requests.request(
-            "POST", api_url, headers=headers, data={}, files=files
-        )
+            "POST", api_url, headers=headers, data={}, files=files, 
+        timeout=60)
         response.raise_for_status()
 
         response_json = response.json()
@@ -249,7 +249,7 @@ class SessionsPythonREPLTool(BaseTool):
             "User-Agent": USER_AGENT,
         }
 
-        response = requests.get(api_url, headers=headers)
+        response = requests.get(api_url, headers=headers, timeout=60)
         response.raise_for_status()
 
         if local_file_path:
@@ -271,7 +271,7 @@ class SessionsPythonREPLTool(BaseTool):
             "User-Agent": USER_AGENT,
         }
 
-        response = requests.get(api_url, headers=headers)
+        response = requests.get(api_url, headers=headers, timeout=60)
         response.raise_for_status()
 
         response_json = response.json()

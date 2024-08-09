@@ -73,7 +73,7 @@ class EdenaiTool(BaseTool):
 
         payload.update(query_params)
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
 
         self._raise_on_error(response)
 
@@ -121,7 +121,7 @@ class EdenaiTool(BaseTool):
             "User-Agent": self.get_user_agent(),
         }
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=60)
 
         self._raise_on_error(response)
 

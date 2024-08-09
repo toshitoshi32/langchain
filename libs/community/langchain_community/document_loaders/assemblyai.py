@@ -143,7 +143,7 @@ class AssemblyAIAudioLoaderById(BaseLoader):
                 transcript_response = requests.get(
                     f"https://api.assemblyai.com/v2/transcript/{self.transcript_id}",
                     headers=HEADERS,
-                )
+                timeout=60)
                 transcript_response.raise_for_status()
             except Exception as e:
                 print(f"An error occurred: {e}")  # noqa: T201
@@ -157,7 +157,7 @@ class AssemblyAIAudioLoaderById(BaseLoader):
                 paragraphs_response = requests.get(
                     f"https://api.assemblyai.com/v2/transcript/{self.transcript_id}/paragraphs",
                     headers=HEADERS,
-                )
+                timeout=60)
                 paragraphs_response.raise_for_status()
             except Exception as e:
                 print(f"An error occurred: {e}")  # noqa: T201
@@ -173,7 +173,7 @@ class AssemblyAIAudioLoaderById(BaseLoader):
                 sentences_response = requests.get(
                     f"https://api.assemblyai.com/v2/transcript/{self.transcript_id}/sentences",
                     headers=HEADERS,
-                )
+                timeout=60)
                 sentences_response.raise_for_status()
             except Exception as e:
                 print(f"An error occurred: {e}")  # noqa: T201
@@ -189,7 +189,7 @@ class AssemblyAIAudioLoaderById(BaseLoader):
                 srt_response = requests.get(
                     f"https://api.assemblyai.com/v2/transcript/{self.transcript_id}/srt",
                     headers=HEADERS,
-                )
+                timeout=60)
                 srt_response.raise_for_status()
             except Exception as e:
                 print(f"An error occurred: {e}")  # noqa: T201
@@ -204,7 +204,7 @@ class AssemblyAIAudioLoaderById(BaseLoader):
                 vtt_response = requests.get(
                     f"https://api.assemblyai.com/v2/transcript/{self.transcript_id}/vtt",
                     headers=HEADERS,
-                )
+                timeout=60)
                 vtt_response.raise_for_status()
             except Exception as e:
                 print(f"An error occurred: {e}")  # noqa: T201
