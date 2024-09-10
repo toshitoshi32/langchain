@@ -1,10 +1,9 @@
 import logging
 from typing import Any, List
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class DiffbotLoader(BaseLoader):
             "token": self.api_token,
             "url": url,
         }
-        response = requests.get(diffbot_url, params=params, timeout=10)
+        response = safe_requests.get(diffbot_url, params=params, timeout=10)
 
         # TODO: handle non-ok errors
         return response.json() if response.ok else {}

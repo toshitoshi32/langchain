@@ -1,9 +1,8 @@
 """Util that calls several NASA APIs."""
 
 import json
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel
+from security import safe_requests
 
 IMAGE_AND_VIDEO_LIBRARY_URL = "https://images-api.nasa.gov"
 
@@ -18,22 +17,22 @@ class NasaAPIWrapper(BaseModel):
             params.pop("q")
         else:
             queryText = ""
-        response = requests.get(
+        response = safe_requests.get(
             IMAGE_AND_VIDEO_LIBRARY_URL + "/search?q=" + queryText, params=params
         )
         data = response.json()
         return data
 
     def get_media_metadata_manifest(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/asset/" + query)
+        response = safe_requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/asset/" + query)
         return response.json()
 
     def get_media_metadata_location(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/metadata/" + query)
+        response = safe_requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/metadata/" + query)
         return response.json()
 
     def get_video_captions_location(self, query: str) -> str:
-        response = requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/captions/" + query)
+        response = safe_requests.get(IMAGE_AND_VIDEO_LIBRARY_URL + "/captions/" + query)
         return response.json()
 
     def run(self, mode: str, query: str) -> str:

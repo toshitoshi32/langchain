@@ -7,6 +7,7 @@ from langchain_core.utils.env import get_from_dict_or_env
 
 from langchain_community.tools.connery.models import Action
 from langchain_community.tools.connery.tool import ConneryAction
+from security import safe_requests
 
 
 class ConneryService(BaseModel):
@@ -85,7 +86,7 @@ class ConneryService(BaseModel):
             List[Action]: The list of actions available in the Connery Runner.
         """
 
-        response = requests.get(
+        response = safe_requests.get(
             f"{self.runner_url}/v1/actions", headers=self._get_headers()
         )
 

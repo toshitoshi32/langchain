@@ -2,11 +2,10 @@ import json
 import re
 import warnings
 from typing import List, Tuple
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 # Pre-compile regular expressions for video ID extraction
 BV_PATTERN = re.compile(r"BV\w+")
@@ -101,7 +100,7 @@ class BiliBiliLoader(BaseLoader):
             if not sub_url.startswith("http"):
                 sub_url = "https:" + sub_url
 
-            response = requests.get(sub_url)
+            response = safe_requests.get(sub_url)
             if response.status_code == 200:
                 raw_sub_titles = json.loads(response.content).get("body", [])
                 raw_transcript = " ".join([c["content"] for c in raw_sub_titles])

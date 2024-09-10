@@ -6,6 +6,7 @@ from typing import Dict, Optional
 import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 GOLDEN_BASE_URL = "https://golden.com"
 GOLDEN_TIMEOUT = 5000
@@ -56,7 +57,7 @@ class GoldenQueryAPIWrapper(BaseModel):
         content = json.loads(response.content)
         query_id = content["id"]
 
-        response = requests.get(
+        response = safe_requests.get(
             (
                 f"{GOLDEN_BASE_URL}/api/v2/public/queries/{query_id}/results/"
                 "?pageSize=10"

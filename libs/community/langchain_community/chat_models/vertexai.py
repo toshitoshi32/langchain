@@ -8,8 +8,6 @@ import re
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Union, cast
 from urllib.parse import urlparse
-
-import requests
 from langchain_core._api.deprecation import deprecated
 from langchain_core.callbacks import (
     AsyncCallbackManagerForLLMRun,
@@ -38,6 +36,7 @@ from langchain_community.utilities.vertexai import (
     load_image_from_gcs,
     raise_vertex_import_error,
 )
+from security import safe_requests
 
 if TYPE_CHECKING:
     from vertexai.language_models import (
@@ -131,7 +130,7 @@ def _parse_chat_history_gemini(
                     )
                 image = Image.from_bytes(base64.b64decode(encoded))
             elif _is_url(path):
-                response = requests.get(path)
+                response = safe_requests.get(path)
                 response.raise_for_status()
                 image = Image.from_bytes(response.content)
             else:

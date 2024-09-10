@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Mapping, Optional, Tuple, Type, Union
 import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 DEFAULT_URL = "https://api.clickup.com/api/v2"
 
@@ -231,7 +232,7 @@ def fetch_first_id(data: dict, key: str) -> Optional[int]:
 def fetch_data(url: str, access_token: str, query: Optional[dict] = None) -> dict:
     """Fetch data from a URL."""
     headers = {"Authorization": access_token}
-    response = requests.get(url, headers=headers, params=query)
+    response = safe_requests.get(url, headers=headers, params=query)
     response.raise_for_status()
     return response.json()
 
@@ -372,7 +373,7 @@ class ClickupAPIWrapper(BaseModel):
         """Get all teams for the user."""
         url = f"{DEFAULT_URL}/team"
 
-        response = requests.get(url, headers=self.get_headers())
+        response = safe_requests.get(url, headers=self.get_headers())
 
         data = response.json()
         parsed_teams = self.attempt_parse_teams(data)
@@ -385,7 +386,7 @@ class ClickupAPIWrapper(BaseModel):
         """
         url = f"{DEFAULT_URL}/team/" + str(self.team_id) + "/space"
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = safe_requests.get(url, headers=self.get_headers(), params=params)
         return {"response": response}
 
     def get_task(self, query: str, fault_tolerant: bool = True) -> Dict:
@@ -403,7 +404,7 @@ class ClickupAPIWrapper(BaseModel):
             "team_id": self.team_id,
             "include_subtasks": "true",
         }
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = safe_requests.get(url, headers=self.get_headers(), params=params)
         data = response.json()
         parsed_task = parse_dict_through_component(
             data, Task, fault_tolerant=fault_tolerant
@@ -418,7 +419,7 @@ class ClickupAPIWrapper(BaseModel):
 
         url = f"{DEFAULT_URL}/folder/{self.folder_id}/list"
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = safe_requests.get(url, headers=self.get_headers(), params=params)
         return {"response": response}
 
     def query_tasks(self, query: str) -> Dict:
@@ -432,7 +433,7 @@ class ClickupAPIWrapper(BaseModel):
         url = f"{DEFAULT_URL}/list/{params['list_id']}/task"
 
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = safe_requests.get(url, headers=self.get_headers(), params=params)
 
         return {"response": response}
 
@@ -441,7 +442,7 @@ class ClickupAPIWrapper(BaseModel):
         Get all spaces for the team.
         """
         url = f"{DEFAULT_URL}/team/{self.team_id}/space"
-        response = requests.get(
+        response = safe_requests.get(
             url, headers=self.get_headers(), params=self.get_default_params()
         )
         data = response.json()

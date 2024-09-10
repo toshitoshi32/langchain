@@ -4,7 +4,6 @@ import json
 from typing import Dict, List, Optional
 
 import aiohttp
-import requests
 from langchain_core.callbacks import (
     AsyncCallbackManagerForRetrieverRun,
     CallbackManagerForRetrieverRun,
@@ -13,6 +12,7 @@ from langchain_core.documents import Document
 from langchain_core.pydantic_v1 import Extra, root_validator
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.utils import get_from_dict_or_env, get_from_env
+from security import safe_requests
 
 DEFAULT_URL_SUFFIX = "search.windows.net"
 """Default URL Suffix for endpoint connection - commercial cloud"""
@@ -86,7 +86,7 @@ class AzureAISearchRetriever(BaseRetriever):
 
     def _search(self, query: str) -> List[dict]:
         search_url = self._build_search_url(query)
-        response = requests.get(search_url, headers=self._headers)
+        response = safe_requests.get(search_url, headers=self._headers)
         if response.status_code != 200:
             raise Exception(f"Error in search request: {response}")
 

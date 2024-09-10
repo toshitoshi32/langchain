@@ -5,10 +5,9 @@ Docs: https://polygon.io/docs/stocks/getting-started
 
 import json
 from typing import Any, Dict, Optional
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 POLYGON_BASE_URL = "https://api.polygon.io/"
 
@@ -40,7 +39,7 @@ class PolygonAPIWrapper(BaseModel):
             f"ticker={ticker}&"
             f"apiKey={self.polygon_api_key}"
         )
-        response = requests.get(url)
+        response = safe_requests.get(url)
         data = response.json()
 
         status = data.get("status", None)
@@ -56,7 +55,7 @@ class PolygonAPIWrapper(BaseModel):
         /v2/last/nbbo/{ticker}
         """
         url = f"{POLYGON_BASE_URL}v2/last/nbbo/{ticker}?apiKey={self.polygon_api_key}"
-        response = requests.get(url)
+        response = safe_requests.get(url)
         data = response.json()
 
         status = data.get("status", None)
@@ -77,7 +76,7 @@ class PolygonAPIWrapper(BaseModel):
             f"ticker={ticker}&"
             f"apiKey={self.polygon_api_key}"
         )
-        response = requests.get(url)
+        response = safe_requests.get(url)
         data = response.json()
 
         status = data.get("status", None)
@@ -111,7 +110,7 @@ class PolygonAPIWrapper(BaseModel):
             f"&adjusted={adjusted}"
             f"&sort={sort}"
         )
-        response = requests.get(url)
+        response = safe_requests.get(url)
         data = response.json()
 
         status = data.get("status", None)

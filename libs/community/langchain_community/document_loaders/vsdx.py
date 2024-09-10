@@ -5,12 +5,11 @@ from pathlib import Path
 from typing import List, Union
 from urllib.parse import urlparse
 
-import requests
-
 from langchain_community.docstore.document import Document
 from langchain_community.document_loaders.base import BaseLoader
 from langchain_community.document_loaders.blob_loaders import Blob
 from langchain_community.document_loaders.parsers import VsdxParser
+from security import safe_requests
 
 
 class VsdxLoader(BaseLoader, ABC):
@@ -22,7 +21,7 @@ class VsdxLoader(BaseLoader, ABC):
 
         # If the file is a web path, download it to a temporary file, and use that
         if not os.path.isfile(self.file_path) and self._is_valid_url(self.file_path):
-            r = requests.get(self.file_path)
+            r = safe_requests.get(self.file_path)
 
             if r.status_code != 200:
                 raise ValueError(

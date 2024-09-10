@@ -1,7 +1,5 @@
 import json
 from typing import Any
-
-import requests
 from bs4 import BeautifulSoup
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
@@ -16,6 +14,7 @@ from langchain_core.runnables import (
 )
 
 from sql_research_assistant.search.sql import sql_answer_chain
+from security import safe_requests
 
 RESULTS_PER_QUESTION = 3
 
@@ -25,7 +24,7 @@ ddg_search = DuckDuckGoSearchAPIWrapper()
 def scrape_text(url: str):
     # Send a GET request to the webpage
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
 
         # Check if the request was successful
         if response.status_code == 200:

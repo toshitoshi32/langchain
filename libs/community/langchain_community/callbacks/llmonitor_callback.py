@@ -6,13 +6,12 @@ import warnings
 from contextvars import ContextVar
 from typing import Any, Dict, List, Union, cast
 from uuid import UUID
-
-import requests
 from langchain_core.agents import AgentAction, AgentFinish
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import BaseMessage
 from langchain_core.outputs import LLMResult
 from packaging.version import parse
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -267,7 +266,7 @@ class LLMonitorCallbackHandler(BaseCallbackHandler):
             return None
 
         try:
-            res = requests.get(f"{self.__api_url}/api/app/{self.__app_id}")
+            res = safe_requests.get(f"{self.__api_url}/api/app/{self.__app_id}")
             if not res.ok:
                 raise ConnectionError()
         except Exception:

@@ -9,6 +9,7 @@ from langchain_core.pydantic_v1 import Extra, root_validator
 from langchain_core.utils import get_from_dict_or_env
 
 from langchain_community.llms.utils import enforce_stop_tokens
+from security import safe_requests
 
 TIMEOUT = 60
 
@@ -45,7 +46,7 @@ def get_models() -> List[str]:
     """List available models"""
     backend = AviaryBackend.from_env()
     request_url = backend.backend_url + "-/routes"
-    response = requests.get(request_url, headers=backend.header, timeout=TIMEOUT)
+    response = safe_requests.get(request_url, headers=backend.header, timeout=TIMEOUT)
     try:
         result = response.json()
     except requests.JSONDecodeError as e:

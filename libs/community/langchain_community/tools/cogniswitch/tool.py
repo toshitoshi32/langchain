@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 import requests
 from langchain_core.callbacks import CallbackManagerForToolRun
 from langchain_core.tools import BaseTool
+from security import safe_requests
 
 
 class CogniswitchKnowledgeRequest(BaseTool):
@@ -139,7 +140,7 @@ class CogniswitchKnowledgeStatus(BaseTool):
             "openAIToken": self.OAI_token,
             "platformToken": self.cs_token,
         }
-        response = requests.get(
+        response = safe_requests.get(
             self.knowledge_status_url,
             headers=headers,
             params=params,

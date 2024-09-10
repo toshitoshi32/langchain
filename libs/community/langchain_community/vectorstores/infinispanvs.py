@@ -11,6 +11,7 @@ import requests
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from langchain_core.vectorstores import VectorStore
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -441,7 +442,7 @@ class Infinispan:
             + "&local="
             + str(local)
         )
-        response = requests.get(api_url, timeout=REST_TIMEOUT)
+        response = safe_requests.get(api_url, timeout=REST_TIMEOUT)
         return response
 
     def post(self, key: str, data: str, cache_name: str) -> requests.Response:
@@ -489,7 +490,7 @@ class Infinispan:
             An http Response containing the entry or errors
         """
         api_url = self._default_node + self._cache_url + "/" + cache_name + "/" + key
-        response = requests.get(
+        response = safe_requests.get(
             api_url, headers={"Content-Type": "application/json"}, timeout=REST_TIMEOUT
         )
         return response

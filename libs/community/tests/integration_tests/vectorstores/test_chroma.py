@@ -3,7 +3,6 @@
 import uuid
 
 import pytest
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.embeddings import FakeEmbeddings as Fak
@@ -12,6 +11,7 @@ from tests.integration_tests.vectorstores.fake_embeddings import (
     ConsistentFakeEmbeddings,
     FakeEmbeddings,
 )
+from security import safe_requests
 
 
 def test_chroma() -> None:
@@ -308,7 +308,7 @@ def test_chroma_add_documents_mixed_metadata() -> None:
 
 def is_api_accessible(url: str) -> bool:
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
         return response.status_code == 200
     except Exception:
         return False
