@@ -1,6 +1,5 @@
 import logging
 import os
-import random
 import string
 import tempfile
 import traceback
@@ -22,6 +21,7 @@ from langchain_community.callbacks.utils import (
     import_spacy,
     import_textstat,
 )
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -193,7 +193,7 @@ class MlflowLogger:
         if run_id is None:
             if name.endswith("-%"):
                 rname = "".join(
-                    random.choices(string.ascii_uppercase + string.digits, k=7)
+                    secrets.SystemRandom().choices(string.ascii_uppercase + string.digits, k=7)
                 )
                 name = name[:-1] + rname
             run = self.mlflow.MlflowClient().create_run(

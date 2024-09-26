@@ -1,7 +1,6 @@
 """Test HANA vectorstore functionality."""
 
 import os
-import random
 from typing import Any, Dict, List
 
 import numpy as np
@@ -20,6 +19,7 @@ from tests.integration_tests.vectorstores.fixtures.filtering_test_cases import (
     TYPE_4_FILTERING_TEST_CASES,
     TYPE_5_FILTERING_TEST_CASES,
 )
+import secrets
 
 TYPE_4B_FILTERING_TEST_CASES = [
     # Test $nin, which is missing in TYPE_4_FILTERING_TEST_CASES
@@ -74,7 +74,7 @@ def generateSchemaName(cursor):  # type: ignore[no-untyped-def]
         rows = cursor.fetchall()
         uid = rows[0][0]
     else:
-        uid = random.randint(1, 100000000)
+        uid = secrets.SystemRandom().randint(1, 100000000)
     return f"VEC_{uid}"
 
 

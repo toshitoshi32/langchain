@@ -1,6 +1,5 @@
 import concurrent
 import logging
-import random
 from pathlib import Path
 from typing import Any, Callable, Iterator, List, Optional, Sequence, Tuple, Type, Union
 
@@ -11,6 +10,7 @@ from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders.html_bs import BSHTMLLoader
 from langchain_community.document_loaders.text import TextLoader
 from langchain_community.document_loaders.unstructured import UnstructuredFileLoader
+import secrets
 
 FILE_LOADER_TYPE = Union[
     Type[UnstructuredFileLoader], Type[TextLoader], Type[BSHTMLLoader], Type[CSVLoader]
@@ -147,8 +147,7 @@ class DirectoryLoader(BaseLoader):
 
         if self.sample_size > 0:
             if self.randomize_sample:
-                randomizer = random.Random(
-                    self.sample_seed if self.sample_seed else None
+                randomizer = secrets.SystemRandom().Random(self.sample_seed if self.sample_seed else None
                 )
                 randomizer.shuffle(items)
             items = items[: min(len(items), self.sample_size)]
