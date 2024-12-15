@@ -22,7 +22,7 @@ class VsdxLoader(BaseLoader, ABC):
 
         # If the file is a web path, download it to a temporary file, and use that
         if not os.path.isfile(self.file_path) and self._is_valid_url(self.file_path):
-            r = requests.get(self.file_path)
+            r = requests.get(self.file_path, timeout=60)
 
             if r.status_code != 200:
                 raise ValueError(

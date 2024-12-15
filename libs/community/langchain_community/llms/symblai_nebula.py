@@ -193,7 +193,7 @@ def make_request(
         body[key] = value
 
     # make request
-    response = requests.post(url, headers=headers, json=body)
+    response = requests.post(url, headers=headers, json=body, timeout=60)
 
     if response.status_code != 200:
         raise Exception(

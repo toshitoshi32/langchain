@@ -74,7 +74,7 @@ class CubeSemanticLoader(BaseLoader):
                 f"{self.cube_api_url}/load",
                 headers=headers,
                 data=json.dumps(query),
-            )
+            timeout=60)
 
             if response.status_code == 200:
                 response_data = response.json()
@@ -121,7 +121,7 @@ class CubeSemanticLoader(BaseLoader):
         }
 
         logger.info(f"Loading metadata from {self.cube_api_url}...")
-        response = requests.get(f"{self.cube_api_url}/meta", headers=headers)
+        response = requests.get(f"{self.cube_api_url}/meta", headers=headers, timeout=60)
         response.raise_for_status()
         raw_meta_json = response.json()
         cube_data_objects = raw_meta_json.get("cubes", [])

@@ -231,7 +231,7 @@ def fetch_first_id(data: dict, key: str) -> Optional[int]:
 def fetch_data(url: str, access_token: str, query: Optional[dict] = None) -> dict:
     """Fetch data from a URL."""
     headers = {"Authorization": access_token}
-    response = requests.get(url, headers=headers, params=query)
+    response = requests.get(url, headers=headers, params=query, timeout=60)
     response.raise_for_status()
     return response.json()
 
@@ -308,7 +308,7 @@ class ClickupAPIWrapper(BaseModel):
             "code": code,
         }
 
-        response = requests.post(url, params=params)
+        response = requests.post(url, params=params, timeout=60)
         data = response.json()
 
         if "access_token" not in data:
@@ -372,7 +372,7 @@ class ClickupAPIWrapper(BaseModel):
         """Get all teams for the user."""
         url = f"{DEFAULT_URL}/team"
 
-        response = requests.get(url, headers=self.get_headers())
+        response = requests.get(url, headers=self.get_headers(), timeout=60)
 
         data = response.json()
         parsed_teams = self.attempt_parse_teams(data)
@@ -385,7 +385,7 @@ class ClickupAPIWrapper(BaseModel):
         """
         url = f"{DEFAULT_URL}/team/" + str(self.team_id) + "/space"
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = requests.get(url, headers=self.get_headers(), params=params, timeout=60)
         return {"response": response}
 
     def get_task(self, query: str, fault_tolerant: bool = True) -> Dict:
@@ -403,7 +403,7 @@ class ClickupAPIWrapper(BaseModel):
             "team_id": self.team_id,
             "include_subtasks": "true",
         }
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = requests.get(url, headers=self.get_headers(), params=params, timeout=60)
         data = response.json()
         parsed_task = parse_dict_through_component(
             data, Task, fault_tolerant=fault_tolerant
@@ -418,7 +418,7 @@ class ClickupAPIWrapper(BaseModel):
 
         url = f"{DEFAULT_URL}/folder/{self.folder_id}/list"
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = requests.get(url, headers=self.get_headers(), params=params, timeout=60)
         return {"response": response}
 
     def query_tasks(self, query: str) -> Dict:
@@ -432,7 +432,7 @@ class ClickupAPIWrapper(BaseModel):
         url = f"{DEFAULT_URL}/list/{params['list_id']}/task"
 
         params = self.get_default_params()
-        response = requests.get(url, headers=self.get_headers(), params=params)
+        response = requests.get(url, headers=self.get_headers(), params=params, timeout=60)
 
         return {"response": response}
 
@@ -442,8 +442,8 @@ class ClickupAPIWrapper(BaseModel):
         """
         url = f"{DEFAULT_URL}/team/{self.team_id}/space"
         response = requests.get(
-            url, headers=self.get_headers(), params=self.get_default_params()
-        )
+            url, headers=self.get_headers(), params=self.get_default_params(), 
+        timeout=60)
         data = response.json()
         parsed_spaces = parse_dict_through_component(data, Space, fault_tolerant=True)
         return parsed_spaces
@@ -483,7 +483,7 @@ found in task keys {task.keys()}. Please call again with one of the key names.""
         headers = self.get_headers()
         payload = {query_dict["attribute_name"]: query_dict["value"]}
 
-        response = requests.put(url, headers=headers, params=params, json=payload)
+        response = requests.put(url, headers=headers, params=params, json=payload, timeout=60)
 
         return {"response": response}
 
@@ -523,7 +523,7 @@ found in task keys {task.keys()}. Please call again with one of the key names.""
         }
 
         payload = {"assignees": assigne_payload}
-        response = requests.put(url, headers=headers, params=params, json=payload)
+        response = requests.put(url, headers=headers, params=params, json=payload, timeout=60)
         return {"response": response}
 
     def create_task(self, query: str) -> Dict:
@@ -541,7 +541,7 @@ found in task keys {task.keys()}. Please call again with one of the key names.""
         payload = extract_dict_elements_from_component_fields(query_dict, Task)
         headers = self.get_headers()
 
-        response = requests.post(url, json=payload, headers=headers, params=params)
+        response = requests.post(url, json=payload, headers=headers, params=params, timeout=60)
         data: Dict = response.json()
         return parse_dict_through_component(data, Task, fault_tolerant=True)
 
@@ -561,7 +561,7 @@ found in task keys {task.keys()}. Please call again with one of the key names.""
         payload = extract_dict_elements_from_component_fields(query_dict, Task)
         headers = self.get_headers()
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
         data = response.json()
         parsed_list = parse_dict_through_component(data, CUList, fault_tolerant=True)
         # set list id to new list
@@ -586,7 +586,7 @@ found in task keys {task.keys()}. Please call again with one of the key names.""
 
         headers = self.get_headers()
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
         data = response.json()
 
         if "id" in data:

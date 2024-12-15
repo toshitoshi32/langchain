@@ -71,7 +71,7 @@ class CloudflareWorkersAIEmbeddings(BaseModel, Embeddings):
                 f"{self.api_base_url}/{self.account_id}/ai/run/{self.model_name}",
                 headers=self.headers,
                 json={"text": batch},
-            )
+            timeout=60)
             embeddings.extend(response.json()["result"]["data"])
 
         return embeddings
@@ -90,5 +90,5 @@ class CloudflareWorkersAIEmbeddings(BaseModel, Embeddings):
             f"{self.api_base_url}/{self.account_id}/ai/run/{self.model_name}",
             headers=self.headers,
             json={"text": [text]},
-        )
+        timeout=60)
         return response.json()["result"]["data"][0]

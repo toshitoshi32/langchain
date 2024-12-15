@@ -70,7 +70,7 @@ class YuqueLoader(BaseLoader):
         return result
 
     def http_get(self, url: str) -> Dict:
-        response = requests.get(url, headers=self.headers)
+        response = requests.get(url, headers=self.headers, timeout=60)
         response.raise_for_status()
 
         return response.json()

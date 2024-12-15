@@ -86,8 +86,8 @@ class ConneryService(BaseModel):
         """
 
         response = requests.get(
-            f"{self.runner_url}/v1/actions", headers=self._get_headers()
-        )
+            f"{self.runner_url}/v1/actions", headers=self._get_headers(), 
+        timeout=60)
 
         if not response.ok:
             raise ValueError(
@@ -138,7 +138,7 @@ class ConneryService(BaseModel):
             f"{self.runner_url}/v1/actions/{action_id}/run",
             headers=self._get_headers(),
             data=json.dumps({"input": input}),
-        )
+        timeout=60)
 
         if not response.ok:
             raise ValueError(

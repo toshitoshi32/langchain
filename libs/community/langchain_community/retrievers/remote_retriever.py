@@ -30,8 +30,8 @@ class RemoteLangChainRetriever(BaseRetriever):
         self, query: str, *, run_manager: CallbackManagerForRetrieverRun
     ) -> List[Document]:
         response = requests.post(
-            self.url, json={self.input_key: query}, headers=self.headers
-        )
+            self.url, json={self.input_key: query}, headers=self.headers, 
+        timeout=60)
         result = response.json()
         return [
             Document(

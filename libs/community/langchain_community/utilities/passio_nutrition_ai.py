@@ -88,8 +88,8 @@ class ManagedPassioLifeAuth(NoDiskStorage):
     )
     def _http_get(self, subscription_key: str) -> requests.Response:
         return requests.get(
-            f"https://api.passiolife.com/v2/token-cache/napi/oauth/token/{subscription_key}"
-        )
+            f"https://api.passiolife.com/v2/token-cache/napi/oauth/token/{subscription_key}", 
+        timeout=60)
 
     def refresh_access_token(self) -> None:
         """Refresh the access token for the NutritionAI API."""
@@ -136,7 +136,7 @@ class NutritionAIAPI(BaseModel):
             self.nutritionai_api_url,
             headers=self.auth_.headers,
             params=params,  # type: ignore
-        )
+        timeout=60)
 
     def _api_call_results(self, search_term: str) -> dict:
         """Call the NutritionAI API and return the results."""

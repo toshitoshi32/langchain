@@ -143,7 +143,7 @@ class SharePointLoader(O365BaseLoader, BaseLoader):
             f"/{self.document_library_id}/items/{file_id}/permissions"
         )
         headers = {"Authorization": f"Bearer {access_token}"}
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, timeout=60)
         access_list = response.json()
 
         group_names = []
@@ -193,7 +193,7 @@ class SharePointLoader(O365BaseLoader, BaseLoader):
             "?$select=size,createdBy,parentReference,name"
         )
         headers = {"Authorization": f"Bearer {access_token}"}
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, timeout=60)
         metadata = response.json()
         staged_metadata = {
             "size": metadata.get("size", 0),

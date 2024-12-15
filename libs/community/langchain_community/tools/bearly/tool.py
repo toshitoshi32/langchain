@@ -123,7 +123,7 @@ class BearlyInterpreterTool:
                 }
             ),
             headers={"Authorization": self.api_key},
-        ).json()
+        timeout=60).json()
         return {
             "stdout": (
                 base64.b64decode(resp["stdoutBasesixtyfour"]).decode()

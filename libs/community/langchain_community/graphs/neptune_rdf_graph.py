@@ -200,8 +200,8 @@ class NeptuneRdfGraph:
             request_hdr["Content-Type"] = "application/x-www-form-urlencoded"
 
         queryres = requests.request(
-            method="POST", url=self.query_endpoint, headers=request_hdr, data=data
-        )
+            method="POST", url=self.query_endpoint, headers=request_hdr, data=data, 
+        timeout=60)
         json_resp = json.loads(queryres.text)
         return json_resp
 

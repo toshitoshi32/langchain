@@ -422,7 +422,7 @@ class GitHubAPIWrapper(BaseModel):
                 break
             for file in files_page:
                 try:
-                    file_metadata_response = requests.get(file.contents_url)
+                    file_metadata_response = requests.get(file.contents_url, timeout=60)
                     if file_metadata_response.status_code == 200:
                         download_url = json.loads(file_metadata_response.text)[
                             "download_url"
@@ -431,7 +431,7 @@ class GitHubAPIWrapper(BaseModel):
                         print(f"Failed to download file: {file.contents_url}, skipping")  # noqa: T201
                         continue
 
-                    file_content_response = requests.get(download_url)
+                    file_content_response = requests.get(download_url, timeout=60)
                     if file_content_response.status_code == 200:
                         # Save the content as a UTF-8 string
                         file_content = file_content_response.text

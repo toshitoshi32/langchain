@@ -175,7 +175,7 @@ class ChatKonko(ChatOpenAI):
                 SecretStr, openai_api_key
             ).get_secret_value()
 
-        models_response = requests.get(models_url, headers=headers)
+        models_response = requests.get(models_url, headers=headers, timeout=60)
 
         if models_response.status_code != 200:
             raise ValueError(

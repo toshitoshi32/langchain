@@ -154,7 +154,7 @@ class Together(LLM):
 
         # filter None values to not pass them to the http payload
         payload = {k: v for k, v in payload.items() if v is not None}
-        response = requests.post(url=self.base_url, json=payload, headers=headers)
+        response = requests.post(url=self.base_url, json=payload, headers=headers, timeout=60)
 
         if response.status_code >= 500:
             raise Exception(f"Together Server: Error {response.status_code}")

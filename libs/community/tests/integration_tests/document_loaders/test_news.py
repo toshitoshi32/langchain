@@ -9,7 +9,7 @@ from langchain_community.document_loaders import NewsURLLoader
 def get_random_news_url() -> str:
     from bs4 import BeautifulSoup
 
-    response = requests.get("https://news.google.com")
+    response = requests.get("https://news.google.com", timeout=60)
     soup = BeautifulSoup(response.text, "html.parser")
 
     article_links = [

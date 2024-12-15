@@ -26,7 +26,7 @@ def is_endpoint_live(url: str, headers: Optional[dict], payload: Any) -> bool:
             an error querying the endpoint.
     """
     try:
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=payload, timeout=60)
 
         # Check if the status code is 200 (OK)
         if response.status_code == 200:
@@ -115,8 +115,8 @@ class NeMoEmbeddings(BaseModel, Embeddings):
         headers = {"Content-Type": "application/json"}
 
         response = requests.request(
-            "POST", self.api_endpoint_url, headers=headers, data=payload
-        )
+            "POST", self.api_endpoint_url, headers=headers, data=payload, 
+        timeout=60)
         response_json = json.loads(response.text)
         embedding = response_json["data"][0]["embedding"]
 

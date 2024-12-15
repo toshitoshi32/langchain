@@ -135,7 +135,7 @@ class NucliaUnderstandingAPI(BaseTool):
                     "x-stf-nuakey": "Bearer " + self._config["NUA_KEY"],
                 },
                 data=source_file.read(),
-            )
+            timeout=60)
             if response.status_code != 200:
                 logger.info(
                     f"Error uploading {content_path}: "
@@ -158,7 +158,7 @@ class NucliaUnderstandingAPI(BaseTool):
                 "x-stf-nuakey": "Bearer " + self._config["NUA_KEY"],
             },
             json=field,
-        )
+        timeout=60)
         if response.status_code != 200:
             logger.info(
                 f"Error pushing field {id}:" f"{response.status_code} {response.text}"
@@ -203,7 +203,7 @@ class NucliaUnderstandingAPI(BaseTool):
             headers={
                 "x-stf-nuakey": "Bearer " + self._config["NUA_KEY"],
             },
-        ).json()
+        timeout=60).json()
         if res["status"] == "empty":
             logger.info("Queue empty")
         elif res["status"] == "ok":

@@ -172,8 +172,8 @@ class KoboldApiLLM(LLM):
             data["stop_sequence"] = stop
 
         response = requests.post(
-            f"{clean_url(self.endpoint)}/api/v1/generate", json=data
-        )
+            f"{clean_url(self.endpoint)}/api/v1/generate", json=data, 
+        timeout=60)
 
         response.raise_for_status()
         json_response = response.json()

@@ -92,7 +92,7 @@ class AmazonAPIGateway(LLM):
                 self.api_url,
                 headers=self.headers,
                 json=payload,
-            )
+            timeout=60)
             text = self.content_handler.transform_output(response)
 
         except Exception as error:

@@ -92,7 +92,7 @@ class _VectorStoreClient:
             url,
             json={},
             headers={"Content-Type": "application/json"},
-        )
+        timeout=60)
         responses = response.json()
         return responses
 
@@ -119,7 +119,7 @@ class _VectorStoreClient:
                 "filepath_globpattern": filepath_globpattern,
             },
             headers={"Content-Type": "application/json"},
-        )
+        timeout=60)
         responses = response.json()
         return responses
 
