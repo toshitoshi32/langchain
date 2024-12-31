@@ -1,9 +1,9 @@
-import random
 
 import pytest
 import requests
 
 from langchain_community.document_loaders import NewsURLLoader
+import secrets
 
 
 def get_random_news_url() -> str:
@@ -15,7 +15,7 @@ def get_random_news_url() -> str:
     article_links = [
         a["href"] for a in soup.find_all("a", href=True) if "/articles/" in a["href"]
     ]
-    random_article_link = random.choice(article_links)
+    random_article_link = secrets.choice(article_links)
 
     return "https://news.google.com" + random_article_link
 

@@ -1,5 +1,4 @@
 import itertools
-import random
 import uuid
 from typing import Dict, List, Optional, Set
 from unittest.mock import MagicMock, patch
@@ -11,6 +10,7 @@ from tests.integration_tests.vectorstores.fake_embeddings import (
     FakeEmbeddings,
     fake_texts,
 )
+import secrets
 
 DEFAULT_VECTOR_DIMENSION = 4
 
@@ -113,7 +113,7 @@ EXAMPLE_SEARCH_RESPONSE = {
     "result": {
         "row_count": len(fake_texts),
         "data_array": sorted(
-            [[str(uuid.uuid4()), s, random.uniform(0, 1)] for s in fake_texts],
+            [[str(uuid.uuid4()), s, secrets.SystemRandom().uniform(0, 1)] for s in fake_texts],
             key=lambda x: x[2],  # type: ignore
             reverse=True,
         ),
@@ -155,7 +155,7 @@ EXAMPLE_SEARCH_RESPONSE_WITH_EMBEDDING = {
         "row_count": len(fake_texts),
         "data_array": sorted(
             [
-                [str(uuid.uuid4()), s, e, random.uniform(0, 1)]
+                [str(uuid.uuid4()), s, e, secrets.SystemRandom().uniform(0, 1)]
                 for s, e in zip(
                     fake_texts, DEFAULT_EMBEDDING_MODEL.embed_documents(fake_texts)
                 )

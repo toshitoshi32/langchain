@@ -1,4 +1,3 @@
-import random
 import uuid
 from typing import List, Tuple
 
@@ -7,6 +6,7 @@ from langchain_core.documents import Document
 
 from langchain_community.retrievers import QdrantSparseVectorRetriever
 from langchain_community.vectorstores.qdrant import QdrantException
+import secrets
 
 
 def consistent_fake_sparse_encoder(
@@ -29,16 +29,16 @@ def consistent_fake_sparse_encoder(
 
     # Use a deterministic seed based on the query
     seed = hash(query)
-    random.seed(seed)
+    secrets.SystemRandom().seed(seed)
 
     # Calculate the number of non-zero elements based on density
     num_non_zero_elements = int(size * density)
 
     # Generate random indices without replacement
-    indices = sorted(random.sample(range(size), num_non_zero_elements))
+    indices = sorted(secrets.SystemRandom().sample(range(size), num_non_zero_elements))
 
     # Generate random float values for the non-zero elements
-    values = [random.uniform(0.0, 1.0) for _ in range(num_non_zero_elements)]
+    values = [secrets.SystemRandom().uniform(0.0, 1.0) for _ in range(num_non_zero_elements)]
 
     return indices, values
 

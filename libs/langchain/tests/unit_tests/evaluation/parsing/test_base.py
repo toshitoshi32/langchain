@@ -1,4 +1,3 @@
-import random
 
 import pytest
 
@@ -6,6 +5,7 @@ from langchain.evaluation.parsing.base import (
     JsonEqualityEvaluator,
     JsonValidityEvaluator,
 )
+import secrets
 
 
 @pytest.fixture
@@ -157,7 +157,7 @@ def test_json_equality_evaluator_evaluate_lists_permutation_invariant() -> None:
         "[" + ",".join([f'{{"a": {i}, "b": {i+1}}}' for i in range(1000)]) + "]"
     )
     rlist = [f'{{"a": {i}, "b": {i+1}}}' for i in range(1000)]
-    random.shuffle(rlist)
+    secrets.SystemRandom().shuffle(rlist)
     reference = "[" + ",".join(rlist) + "]"
     result = evaluator.evaluate_strings(prediction=prediction, reference=reference)
     assert result == {"score": True}

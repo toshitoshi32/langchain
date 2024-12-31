@@ -1,6 +1,4 @@
 """Test text splitting functionality."""
-
-import random
 import re
 import string
 from pathlib import Path
@@ -24,6 +22,7 @@ from langchain_text_splitters.markdown import (
     MarkdownHeaderTextSplitter,
 )
 from langchain_text_splitters.python import PythonCodeTextSplitter
+import secrets
 
 FAKE_PYTHON_TEXT = """
 class Foo:
@@ -1916,7 +1915,7 @@ def test_split_json() -> None:
     splitter = RecursiveJsonSplitter(max_chunk_size=max_chunk)
 
     def random_val() -> str:
-        return "".join(random.choices(string.ascii_letters, k=random.randint(4, 12)))
+        return "".join(secrets.SystemRandom().choices(string.ascii_letters, k=secrets.SystemRandom().randint(4, 12)))
 
     test_data: Any = {
         "val0": random_val(),
@@ -1938,7 +1937,7 @@ def test_split_json_with_lists() -> None:
     splitter = RecursiveJsonSplitter(max_chunk_size=max_chunk)
 
     def random_val() -> str:
-        return "".join(random.choices(string.ascii_letters, k=random.randint(4, 12)))
+        return "".join(secrets.SystemRandom().choices(string.ascii_letters, k=secrets.SystemRandom().randint(4, 12)))
 
     test_data: Any = {
         "val0": random_val(),

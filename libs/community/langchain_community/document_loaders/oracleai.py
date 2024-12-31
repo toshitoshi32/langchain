@@ -12,7 +12,6 @@ import hashlib
 import json
 import logging
 import os
-import random
 import struct
 import time
 import traceback
@@ -22,6 +21,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 from langchain_core.document_loaders import BaseLoader
 from langchain_core.documents import Document
 from langchain_text_splitters import TextSplitter
+import secrets
 
 if TYPE_CHECKING:
     from oracledb import Connection
@@ -74,8 +74,7 @@ class OracleDocReader:
 
         if input_string is None:
             input_string = "".join(
-                random.choices(
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                secrets.SystemRandom().choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
                     k=16,
                 )
             )
@@ -89,7 +88,7 @@ class OracleDocReader:
         hashval_bin = hashval_bin[:hash_len]  # 8 bytes
 
         # counter
-        counter_bin = struct.pack(">I", random.getrandbits(32))  # 4 bytes
+        counter_bin = struct.pack(">I", secrets.SystemRandom().getrandbits(32))  # 4 bytes
 
         # binary object id
         object_id = timestamp_bin + hashval_bin + counter_bin  # 16 bytes

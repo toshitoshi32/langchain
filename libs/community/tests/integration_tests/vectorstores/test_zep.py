@@ -1,6 +1,5 @@
 # mypy: disable-error-code=attr-defined
 import copy
-from random import random
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
@@ -10,6 +9,7 @@ from pytest_mock import MockerFixture
 
 from langchain_community.vectorstores import ZepVectorStore
 from langchain_community.vectorstores.zep import CollectionConfig
+import secrets
 
 if TYPE_CHECKING:
     from zep_python.document import Document as ZepDocument
@@ -19,7 +19,7 @@ VECTOR_DIMS = 5
 
 
 def gen_vector() -> List[float]:
-    return [random() for _ in range(VECTOR_DIMS)]
+    return [secrets.SystemRandom().random() for _ in range(VECTOR_DIMS)]
 
 
 def gen_mock_zep_document(
@@ -29,7 +29,7 @@ def gen_mock_zep_document(
     from zep_python.document import Document as ZepDocument
 
     embedding = (
-        [random() for _ in range(embedding_dimensions)]
+        [secrets.SystemRandom().random() for _ in range(embedding_dimensions)]
         if embedding_dimensions
         else None
     )
