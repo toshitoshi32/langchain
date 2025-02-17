@@ -27,6 +27,7 @@ from langchain_cli.utils.pyproject import (
     add_dependencies_to_pyproject_toml,
     remove_dependencies_from_pyproject_toml,
 )
+from security import safe_command
 
 REPO_DIR = Path(typer.get_app_dir("langchain")) / "git_repos"
 
@@ -245,7 +246,7 @@ def add(
             cmd = ["pip", "install", "-e"] + installed_destination_strs
             cmd_str = " \\\n  ".join(installed_destination_strs)
             typer.echo(f"Running: pip install -e \\\n  {cmd_str}")
-            subprocess.run(cmd, cwd=cwd)
+            safe_command.run(subprocess.run, cmd, cwd=cwd)
 
     chain_names = []
     for e in installed_exports:

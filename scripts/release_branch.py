@@ -7,6 +7,7 @@ import tomllib
 import toml
 import subprocess
 import sys
+from security import safe_command
 
 
 def main(*args):
@@ -30,8 +31,7 @@ def main(*args):
 
     branch = f"{user}/{pkg}_{bumped.replace('.', '_')}"
     print(
-        subprocess.run(
-            f"git checkout -b {branch}; git commit -am '{pkg}[patch]: Release {bumped}'; git push -u origin {branch}",
+        safe_command.run(subprocess.run, f"git checkout -b {branch}; git commit -am '{pkg}[patch]: Release {bumped}'; git push -u origin {branch}",
             shell=True,
             capture_output=True,
             text=True,
