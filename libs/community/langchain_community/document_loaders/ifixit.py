@@ -1,10 +1,9 @@
 from typing import List, Optional
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
 from langchain_community.document_loaders.web_base import WebBaseLoader
+from security import safe_requests
 
 IFIXIT_BASE_URL = "https://www.ifixit.com/api/2.0"
 
@@ -69,7 +68,7 @@ class IFixitLoader(BaseLoader):
         Returns:
 
         """
-        res = requests.get(
+        res = safe_requests.get(
             IFIXIT_BASE_URL + "/suggest/" + query + "?doctypes=" + doc_type
         )
 
@@ -158,7 +157,7 @@ class IFixitLoader(BaseLoader):
         else:
             url = url_override
 
-        res = requests.get(url)
+        res = safe_requests.get(url)
         data = res.json()
         text = "\n".join(
             [
@@ -193,7 +192,7 @@ class IFixitLoader(BaseLoader):
         else:
             url = url_override
 
-        res = requests.get(url)
+        res = safe_requests.get(url)
 
         if res.status_code != 200:
             raise ValueError(

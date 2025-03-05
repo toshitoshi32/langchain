@@ -3,11 +3,10 @@ import re
 import time
 from enum import Enum
 from typing import List, Optional
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 
 class BlockchainType(Enum):
@@ -93,7 +92,7 @@ class BlockchainDocumentLoader(BaseLoader):
                 f"&startToken={current_start_token}"
             )
 
-            response = requests.get(url)
+            response = safe_requests.get(url)
 
             if response.status_code != 200:
                 raise ValueError(

@@ -1,11 +1,10 @@
 """Wrapper for Rememberizer APIs."""
 
 from typing import Dict, List, Optional, cast
-
-import requests
 from langchain_core.documents import Document
 from langchain_core.pydantic_v1 import BaseModel, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 
 class RememberizerAPIWrapper(BaseModel):
@@ -27,7 +26,7 @@ class RememberizerAPIWrapper(BaseModel):
     def search(self, query: str) -> dict:
         """Search for a query in the Rememberizer API."""
         url = f"https://api.rememberizer.ai/api/v1/documents/search?q={query}&n={self.top_k_results}"
-        response = requests.get(
+        response = safe_requests.get(
             url, headers={"x-api-key": cast(str, self.rememberizer_api_key)}
         )
         data = response.json()

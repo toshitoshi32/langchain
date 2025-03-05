@@ -1,7 +1,5 @@
 import json
 from typing import Any
-
-import requests
 from bs4 import BeautifulSoup
 from langchain.retrievers.tavily_search_api import TavilySearchAPIRetriever
 from langchain_community.chat_models import ChatOpenAI
@@ -16,6 +14,7 @@ from langchain_core.runnables import (
     RunnableParallel,
     RunnablePassthrough,
 )
+from security import safe_requests
 
 RESULTS_PER_QUESTION = 3
 
@@ -25,7 +24,7 @@ ddg_search = DuckDuckGoSearchAPIWrapper()
 def scrape_text(url: str):
     # Send a GET request to the webpage
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
 
         # Check if the request was successful
         if response.status_code == 200:

@@ -6,6 +6,7 @@ from typing import Any, Callable, Dict, Optional, final
 import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, Field, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 
 class NoDiskStorage:
@@ -87,7 +88,7 @@ class ManagedPassioLifeAuth(NoDiskStorage):
         wait=wait_random(0, 0.3) + wait_exponential(multiplier=1, min=0.1, max=2),
     )
     def _http_get(self, subscription_key: str) -> requests.Response:
-        return requests.get(
+        return safe_requests.get(
             f"https://api.passiolife.com/v2/token-cache/napi/oauth/token/{subscription_key}"
         )
 
@@ -132,7 +133,7 @@ class NutritionAIAPI(BaseModel):
         wait=wait_random(0, 0.3) + wait_exponential(multiplier=1, min=0.1, max=2),
     )
     def _http_get(self, params: dict) -> requests.Response:
-        return requests.get(
+        return safe_requests.get(
             self.nutritionai_api_url,
             headers=self.auth_.headers,
             params=params,  # type: ignore

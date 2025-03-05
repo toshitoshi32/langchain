@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 
 import requests
 from langchain_core.messages import get_buffer_string
+from security import safe_requests
 
 try:
     # Temporarily tuck import in a conditional import until
@@ -46,7 +47,7 @@ try:
             return headers
 
         async def init(self) -> None:
-            res = requests.get(
+            res = safe_requests.get(
                 f"{self.url}/sessions/{self.session_id}/memory",
                 timeout=self.timeout,
                 headers=self.__get_headers(),

@@ -21,6 +21,7 @@ from langchain_core.documents import Document
 from langchain_core.utils.html import extract_sub_links
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -360,7 +361,7 @@ class RecursiveUrlLoader(BaseLoader):
         # Get all links that can be accessed from the current URL
         visited.add(url)
         try:
-            response = requests.get(url, timeout=self.timeout, headers=self.headers)
+            response = safe_requests.get(url, timeout=self.timeout, headers=self.headers)
 
             if self.encoding is not None:
                 response.encoding = self.encoding

@@ -1,10 +1,9 @@
 """Util that calls Bing Search."""
 
 from typing import Dict, List
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, Field, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 # BING_SEARCH_ENDPOINT is the default endpoint for Bing Web Search API.
 # Currently There are two web-based Bing Search services available on Azure,
@@ -48,7 +47,7 @@ class BingSearchAPIWrapper(BaseModel):
             "textFormat": "HTML",
             **self.search_kwargs,
         }
-        response = requests.get(
+        response = safe_requests.get(
             self.bing_search_url,
             headers=headers,
             params=params,  # type: ignore

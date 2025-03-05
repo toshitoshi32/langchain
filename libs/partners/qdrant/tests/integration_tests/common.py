@@ -3,13 +3,14 @@ from typing import List
 import requests  # type: ignore
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
+from security import safe_requests
 
 
 def qdrant_running_locally() -> bool:
     """Check if Qdrant is running at http://localhost:6333."""
 
     try:
-        response = requests.get("http://localhost:6333", timeout=10.0)
+        response = safe_requests.get("http://localhost:6333", timeout=10.0)
         response_json = response.json()
         return response_json.get("title") == "qdrant - vector search engine"
     except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):

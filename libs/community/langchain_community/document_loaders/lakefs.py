@@ -3,13 +3,12 @@ import tempfile
 import urllib.parse
 from typing import Any, List, Optional
 from urllib.parse import urljoin
-
-import requests
 from langchain_core.documents import Document
 from requests.auth import HTTPBasicAuth
 
 from langchain_community.document_loaders.base import BaseLoader
 from langchain_community.document_loaders.unstructured import UnstructuredBaseLoader
+from security import safe_requests
 
 
 class LakeFSClient:
@@ -24,7 +23,7 @@ class LakeFSClient:
         self.__endpoint = "/".join([lakefs_endpoint, "api", "v1/"])
         self.__auth = HTTPBasicAuth(lakefs_access_key, lakefs_secret_key)
         try:
-            health_check = requests.get(
+            health_check = safe_requests.get(
                 urljoin(self.__endpoint, "healthcheck"), auth=self.__auth
             )
             health_check.raise_for_status()
@@ -41,7 +40,7 @@ class LakeFSClient:
         objects_ls_endpoint = urljoin(
             self.__endpoint, f"repositories/{repo}/refs/{ref}/objects/ls?{eqp}"
         )
-        olsr = requests.get(objects_ls_endpoint, auth=self.__auth)
+        olsr = safe_requests.get(objects_ls_endpoint, auth=self.__auth)
         olsr.raise_for_status()
         olsr_json = olsr.json()
         return list(
@@ -52,7 +51,7 @@ class LakeFSClient:
 
     def is_presign_supported(self) -> bool:
         config_endpoint = self.__endpoint + "config"
-        response = requests.get(config_endpoint, auth=self.__auth)
+        response = safe_requests.get(config_endpoint, auth=self.__auth)
         response.raise_for_status()
         config = response.json()
         return config["storage_config"]["pre_sign_support"]
@@ -169,7 +168,7 @@ class UnstructuredLakeFSLoader(UnstructuredBaseLoader):
             with tempfile.TemporaryDirectory() as temp_dir:
                 file_path = f"{temp_dir}/{self.path.split('/')[-1]}"
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
-                response = requests.get(self.url)
+                response = safe_requests.get(self.url)
                 response.raise_for_status()
                 with open(file_path, mode="wb") as file:
                     file.write(response.content)
