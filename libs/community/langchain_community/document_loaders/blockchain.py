@@ -93,7 +93,7 @@ class BlockchainDocumentLoader(BaseLoader):
                 f"&startToken={current_start_token}"
             )
 
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
 
             if response.status_code != 200:
                 raise ValueError(

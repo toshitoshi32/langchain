@@ -73,7 +73,7 @@ class BookendEmbeddings(BaseModel, Embeddings):
                 headers=headers,
                 params=params,
                 data=data,
-            )
+            timeout=60)
             result.append(r.json()[0]["data"])
 
         return result

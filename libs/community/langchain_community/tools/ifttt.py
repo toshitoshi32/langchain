@@ -57,5 +57,5 @@ class IFTTTWebhook(BaseTool):
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> str:
         body = {"this": tool_input}
-        response = requests.post(self.url, data=body)
+        response = requests.post(self.url, data=body, timeout=60)
         return response.text

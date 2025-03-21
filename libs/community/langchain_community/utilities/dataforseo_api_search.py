@@ -103,7 +103,7 @@ class DataForSeoAPIWrapper(BaseModel):
             request_details["url"],
             headers=request_details["headers"],
             json=request_details["data"],
-        )
+        timeout=60)
         response.raise_for_status()
         return self._check_response(response.json())
 

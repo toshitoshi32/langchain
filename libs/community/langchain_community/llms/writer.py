@@ -150,7 +150,7 @@ class Writer(LLM):
                 "Accept": "application/json",
             },
             json={"prompt": prompt, **params},
-        )
+        timeout=60)
         text = response.text
         if stop is not None:
             # I believe this is required since the stop tokens

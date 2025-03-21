@@ -42,7 +42,7 @@ def load_ts_git_dataset(
     json_file_path = os.path.join(temp_dir, tmp_file)
 
     if not os.path.exists(json_file_path):
-        response = requests.get(json_url)
+        response = requests.get(json_url, timeout=60)
         if response.status_code == 200:
             with open(json_file_path, "w") as json_file:
                 json_file.write(response.text)

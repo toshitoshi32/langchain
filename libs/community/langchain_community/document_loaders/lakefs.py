@@ -25,8 +25,8 @@ class LakeFSClient:
         self.__auth = HTTPBasicAuth(lakefs_access_key, lakefs_secret_key)
         try:
             health_check = requests.get(
-                urljoin(self.__endpoint, "healthcheck"), auth=self.__auth
-            )
+                urljoin(self.__endpoint, "healthcheck"), auth=self.__auth, 
+            timeout=60)
             health_check.raise_for_status()
         except Exception:
             raise ValueError(
@@ -41,7 +41,7 @@ class LakeFSClient:
         objects_ls_endpoint = urljoin(
             self.__endpoint, f"repositories/{repo}/refs/{ref}/objects/ls?{eqp}"
         )
-        olsr = requests.get(objects_ls_endpoint, auth=self.__auth)
+        olsr = requests.get(objects_ls_endpoint, auth=self.__auth, timeout=60)
         olsr.raise_for_status()
         olsr_json = olsr.json()
         return list(
@@ -52,7 +52,7 @@ class LakeFSClient:
 
     def is_presign_supported(self) -> bool:
         config_endpoint = self.__endpoint + "config"
-        response = requests.get(config_endpoint, auth=self.__auth)
+        response = requests.get(config_endpoint, auth=self.__auth, timeout=60)
         response.raise_for_status()
         config = response.json()
         return config["storage_config"]["pre_sign_support"]
@@ -169,7 +169,7 @@ class UnstructuredLakeFSLoader(UnstructuredBaseLoader):
             with tempfile.TemporaryDirectory() as temp_dir:
                 file_path = f"{temp_dir}/{self.path.split('/')[-1]}"
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
-                response = requests.get(self.url)
+                response = requests.get(self.url, timeout=60)
                 response.raise_for_status()
                 with open(file_path, mode="wb") as file:
                     file.write(response.content)

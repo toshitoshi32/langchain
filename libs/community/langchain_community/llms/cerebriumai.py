@@ -99,7 +99,7 @@ class CerebriumAI(LLM):
         }
         params = self.model_kwargs or {}
         payload = {"prompt": prompt, **params, **kwargs}
-        response = requests.post(self.endpoint_url, json=payload, headers=headers)
+        response = requests.post(self.endpoint_url, json=payload, headers=headers, timeout=60)
         if response.status_code == 200:
             data = response.json()
             text = data["result"]

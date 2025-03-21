@@ -186,7 +186,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
             response = requests.get(
                 url,
                 headers={"Authorization": f"Bearer {self.access_token}"},
-            )
+            timeout=60)
             if response.ok:
                 data = response.json()
                 all_documents.extend(data["documents"])
@@ -209,7 +209,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
                 url,
                 headers={"Authorization": f"Bearer {self.access_token}"},
                 data={},
-            )
+            timeout=60)
             if response.ok:
                 data = response.json()
                 all_projects.extend(data["projects"])
@@ -235,7 +235,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
                 url,
                 headers={"Authorization": f"Bearer {self.access_token}"},
                 data={},
-            )
+            timeout=60)
             if response.ok:
                 data = response.json()
                 all_artifacts.extend(data["artifacts"])
@@ -263,7 +263,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
                     f"{artifact_url}/content",
                     headers={"Authorization": f"Bearer {self.access_token}"},
                     data={},
-                )
+                timeout=60)
 
                 if response.ok:
                     try:
@@ -307,7 +307,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
             url,
             headers={"Authorization": f"Bearer {self.access_token}"},
             data={},
-        )
+        timeout=60)
 
         if response.ok:
             return self._parse_dgml(

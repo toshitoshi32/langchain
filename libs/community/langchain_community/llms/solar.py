@@ -25,7 +25,7 @@ class _SolarClient(BaseModel):
             f"{self.base_url}/chat/completions",
             headers=headers,
             json=request,
-        )
+        timeout=60)
         if not response.ok:
             raise ValueError(f"HTTP {response.status_code} error: {response.text}")
         return response.json()["choices"][0]["message"]["content"]

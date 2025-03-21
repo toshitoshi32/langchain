@@ -24,7 +24,7 @@ class ToMarkdownLoader(BaseLoader):
             "https://2markdown.com/api/2md",
             headers={"X-Api-Key": self.api_key},
             json={"url": self.url},
-        )
+        timeout=60)
         text = response.json()["article"]
         metadata = {"source": self.url}
         yield Document(page_content=text, metadata=metadata)

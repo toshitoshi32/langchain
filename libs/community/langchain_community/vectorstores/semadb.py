@@ -78,7 +78,7 @@ class SemaDB(VectorStore):
             SemaDB.BASE_URL + "/collections",
             json=payload,
             headers=self.headers,
-        )
+        timeout=60)
         return response.status_code == 200
 
     def delete_collection(self) -> bool:
@@ -86,7 +86,7 @@ class SemaDB(VectorStore):
         response = requests.delete(
             SemaDB.BASE_URL + f"/collections/{self.collection_name}",
             headers=self.headers,
-        )
+        timeout=60)
         return response.status_code == 200
 
     def add_texts(
@@ -144,7 +144,7 @@ class SemaDB(VectorStore):
                 SemaDB.BASE_URL + f"/collections/{self.collection_name}/points",
                 json={"points": batch},
                 headers=self.headers,
-            )
+            timeout=60)
             if response.status_code != 200:
                 print("HERE--", batch)  # noqa: T201
                 raise ValueError(f"Error adding points: {response.text}")
@@ -177,7 +177,7 @@ class SemaDB(VectorStore):
             SemaDB.BASE_URL + f"/collections/{self.collection_name}/points",
             json=payload,
             headers=self.headers,
-        )
+        timeout=60)
         return response.status_code == 200 and len(response.json()["failedPoints"]) == 0
 
     def _search_points(self, embedding: List[float], k: int = 4) -> List[dict]:
@@ -196,7 +196,7 @@ class SemaDB(VectorStore):
             SemaDB.BASE_URL + f"/collections/{self.collection_name}/points/search",
             json=payload,
             headers=self.headers,
-        )
+        timeout=60)
         if response.status_code != 200:
             raise ValueError(f"Error searching: {response.text}")
         return response.json()["points"]

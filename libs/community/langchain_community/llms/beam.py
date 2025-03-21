@@ -264,7 +264,7 @@ class Beam(LLM):
         }
 
         for _ in range(DEFAULT_NUM_TRIES):
-            request = requests.post(url, headers=headers, data=json.dumps(payload))
+            request = requests.post(url, headers=headers, data=json.dumps(payload), timeout=60)
             if request.status_code == 200:
                 return request.json()["text"]
             time.sleep(DEFAULT_SLEEP_TIME)

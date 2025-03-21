@@ -59,7 +59,7 @@ class ErnieEmbeddings(BaseModel, Embeddings):
             },
             params={"access_token": self.access_token},
             json=json,
-        )
+        timeout=60)
         return resp.json()
 
     def _refresh_access_token_with_lock(self) -> None:
@@ -77,7 +77,7 @@ class ErnieEmbeddings(BaseModel, Embeddings):
                     "client_id": self.ernie_client_id,
                     "client_secret": self.ernie_client_secret,
                 },
-            )
+            timeout=60)
             self.access_token = str(resp.json().get("access_token"))
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:

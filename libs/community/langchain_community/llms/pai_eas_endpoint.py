@@ -160,7 +160,7 @@ class PaiEasEndpoint(LLM):
             body[key] = value
 
         # make request
-        response = requests.post(self.eas_service_url, headers=headers, json=body)
+        response = requests.post(self.eas_service_url, headers=headers, json=body, timeout=60)
 
         if response.status_code != 200:
             raise Exception(
@@ -192,8 +192,8 @@ class PaiEasEndpoint(LLM):
         if self.version == "1.0":
             pload = {"input_ids": prompt, **invocation_params}
             response = requests.post(
-                self.eas_service_url, headers=headers, json=pload, stream=True
-            )
+                self.eas_service_url, headers=headers, json=pload, stream=True, 
+            timeout=60)
 
             res = GenerationChunk(text=response.text)
 
@@ -206,8 +206,8 @@ class PaiEasEndpoint(LLM):
             pload = {"prompt": prompt, "use_stream_chat": "True", **invocation_params}
 
             response = requests.post(
-                self.eas_service_url, headers=headers, json=pload, stream=True
-            )
+                self.eas_service_url, headers=headers, json=pload, stream=True, 
+            timeout=60)
 
             for chunk in response.iter_lines(
                 chunk_size=8192, decode_unicode=False, delimiter=b"\0"

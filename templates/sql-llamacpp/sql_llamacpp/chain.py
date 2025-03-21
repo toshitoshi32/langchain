@@ -21,7 +21,7 @@ url = (
 if not os.path.exists(file_name):
     print(f"'{file_name}' not found. Downloading...")
     # Download the file
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     response.raise_for_status()  # Raise an exception for HTTP errors
     with open(file_name, "wb") as f:
         f.write(response.content)
