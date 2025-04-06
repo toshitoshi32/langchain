@@ -463,6 +463,6 @@ class PresidioReversibleAnonymizer(PresidioAnonymizerBase, ReversibleAnonymizerB
                 loaded_mapping = json.load(f)
         elif load_path.suffix.endswith((".yaml", ".yml")):
             with open(load_path, "r") as f:
-                loaded_mapping = yaml.load(f, Loader=yaml.FullLoader)
+                loaded_mapping = yaml.load(f, Loader=yaml.SafeLoader)
 
         self._deanonymizer_mapping.update(loaded_mapping)
