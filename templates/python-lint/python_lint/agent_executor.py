@@ -75,8 +75,7 @@ def check_mypy(filepath: str, strict: bool = True, follow_imports: str = "skip")
     subprocess.check_output(  # nosec
         cmd,
         stderr=subprocess.STDOUT,
-        shell=True,
-        text=True,
+        shell=False, text=True,
         timeout=3,
     )
 
