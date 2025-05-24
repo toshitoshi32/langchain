@@ -10,6 +10,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain_core.language_models import BaseLLM
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import ConfigurableField, Runnable
+from security import safe_command
 
 
 def strip_python_markdown_tags(text: str) -> str:
@@ -23,8 +24,7 @@ def strip_python_markdown_tags(text: str) -> str:
 
 def format_black(filepath: str):
     """Format a file with black."""
-    subprocess.run(  # nosec
-        f"black {filepath}",
+    safe_command.run(subprocess.run, f"black {filepath}",
         stderr=subprocess.STDOUT,
         text=True,
         shell=True,
@@ -35,8 +35,7 @@ def format_black(filepath: str):
 
 def format_ruff(filepath: str):
     """Run ruff format on a file."""
-    subprocess.run(  # nosec
-        f"ruff check --fix {filepath}",
+    safe_command.run(subprocess.run, f"ruff check --fix {filepath}",
         shell=True,
         text=True,
         timeout=3,
@@ -44,8 +43,7 @@ def format_ruff(filepath: str):
         check=False,
     )
 
-    subprocess.run(  # nosec
-        f"ruff format {filepath}",
+    safe_command.run(subprocess.run, f"ruff format {filepath}",
         stderr=subprocess.STDOUT,
         shell=True,
         timeout=3,

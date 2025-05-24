@@ -8,6 +8,7 @@ from langchain_community.document_loaders.assemblyai import TranscriptFormat
 from langchain_core.callbacks.manager import CallbackManagerForChainRun
 
 from langchain_experimental.video_captioning.models import AudioModel, BaseModel
+from security import safe_command
 
 
 class AudioProcessor:
@@ -49,8 +50,7 @@ class AudioProcessor:
             "-y",  # The '-y' flag overwrites the output file if it exists
         ]
 
-        subprocess.run(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True
+        safe_command.run(subprocess.run, command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True
         )
 
     def _transcribe_audio(self) -> List[BaseModel]:
