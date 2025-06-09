@@ -11,6 +11,7 @@ from langchain_core.documents import Document
 from langchain_core.pydantic_v1 import BaseModel, root_validator
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 TABLE_NAME = "{http://www.w3.org/1999/xhtml}table"
 
@@ -183,7 +184,7 @@ class DocugamiLoader(BaseLoader, BaseModel):
         all_documents = []
 
         while url:
-            response = requests.get(
+            response = safe_requests.get(
                 url,
                 headers={"Authorization": f"Bearer {self.access_token}"},
             )

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from pydantic.v1 import BaseModel, root_validator
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -307,7 +308,7 @@ def _is_url_ok(url: str) -> bool:
     import requests
 
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
         response.raise_for_status()
     except requests.exceptions.RequestException as ex:
         logger.warning(f"Could not open the {url}.")

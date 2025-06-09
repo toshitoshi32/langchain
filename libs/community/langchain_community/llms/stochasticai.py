@@ -9,6 +9,7 @@ from langchain_core.pydantic_v1 import Extra, Field, SecretStr, root_validator
 from langchain_core.utils import convert_to_secret_str, get_from_dict_or_env
 
 from langchain_community.llms.utils import enforce_stop_tokens
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +117,7 @@ class StochasticAI(LLM):
         response_post_json = response_post.json()
         completed = False
         while not completed:
-            response_get = requests.get(
+            response_get = safe_requests.get(
                 url=response_post_json["data"]["responseUrl"],
                 headers={
                     "apiKey": f"{self.stochasticai_api_key.get_secret_value()}",  # type: ignore[union-attr]

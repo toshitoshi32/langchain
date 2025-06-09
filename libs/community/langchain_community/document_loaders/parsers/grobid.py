@@ -6,6 +6,7 @@ from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseBlobParser
 from langchain_community.document_loaders.blob_loaders import Blob
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class GrobidParser(BaseBlobParser):
         self.segment_sentences = segment_sentences
         self.grobid_server = grobid_server
         try:
-            requests.get(grobid_server)
+            safe_requests.get(grobid_server)
         except requests.exceptions.RequestException:
             logger.error(
                 "GROBID server does not appear up and running, \

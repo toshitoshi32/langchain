@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import json
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 if TYPE_CHECKING:
     from github.Issue import Issue
@@ -422,7 +421,7 @@ class GitHubAPIWrapper(BaseModel):
                 break
             for file in files_page:
                 try:
-                    file_metadata_response = requests.get(file.contents_url)
+                    file_metadata_response = safe_requests.get(file.contents_url)
                     if file_metadata_response.status_code == 200:
                         download_url = json.loads(file_metadata_response.text)[
                             "download_url"
@@ -431,7 +430,7 @@ class GitHubAPIWrapper(BaseModel):
                         print(f"Failed to download file: {file.contents_url}, skipping")  # noqa: T201
                         continue
 
-                    file_content_response = requests.get(download_url)
+                    file_content_response = safe_requests.get(download_url)
                     if file_content_response.status_code == 200:
                         # Save the content as a UTF-8 string
                         file_content = file_content_response.text

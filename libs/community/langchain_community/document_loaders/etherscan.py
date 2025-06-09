@@ -6,6 +6,7 @@ import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 
 class EtherscanLoader(BaseLoader):
@@ -78,7 +79,7 @@ class EtherscanLoader(BaseLoader):
             f"&offset={self.offset}&sort={self.sort}&apikey={self.api_key}"
         )
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201
@@ -100,7 +101,7 @@ class EtherscanLoader(BaseLoader):
         )
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201
@@ -115,7 +116,7 @@ class EtherscanLoader(BaseLoader):
         )
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201
@@ -138,7 +139,7 @@ class EtherscanLoader(BaseLoader):
         )
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201
@@ -161,7 +162,7 @@ class EtherscanLoader(BaseLoader):
         )
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201
@@ -184,7 +185,7 @@ class EtherscanLoader(BaseLoader):
         )
 
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("Error occurred while making the request:", e)  # noqa: T201

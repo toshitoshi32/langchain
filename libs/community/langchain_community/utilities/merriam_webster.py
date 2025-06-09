@@ -7,6 +7,7 @@ from urllib.parse import quote
 import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 MERRIAM_WEBSTER_API_URL = (
     "https://www.dictionaryapi.com/api/v3/references/collegiate/json"
@@ -52,7 +53,7 @@ class MerriamWebsterAPIWrapper(BaseModel):
             f"?key={self.merriam_webster_api_key}"
         )
 
-        response = requests.get(request_url, timeout=MERRIAM_WEBSTER_TIMEOUT)
+        response = safe_requests.get(request_url, timeout=MERRIAM_WEBSTER_TIMEOUT)
 
         if response.status_code != 200:
             return response.text

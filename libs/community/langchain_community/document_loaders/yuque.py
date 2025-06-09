@@ -1,10 +1,9 @@
 import re
 from typing import Dict, Iterator, List
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 
 class YuqueLoader(BaseLoader):
@@ -70,7 +69,7 @@ class YuqueLoader(BaseLoader):
         return result
 
     def http_get(self, url: str) -> Dict:
-        response = requests.get(url, headers=self.headers)
+        response = safe_requests.get(url, headers=self.headers)
         response.raise_for_status()
 
         return response.json()

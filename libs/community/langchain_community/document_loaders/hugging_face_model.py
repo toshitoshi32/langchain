@@ -4,6 +4,7 @@ import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 
 class HuggingFaceModelLoader(BaseLoader):
@@ -77,7 +78,7 @@ class HuggingFaceModelLoader(BaseLoader):
 
     def fetch_models(self) -> List[dict]:
         """Fetch model information from Hugging Face Hub."""
-        response = requests.get(
+        response = safe_requests.get(
             self.BASE_URL,
             params={k: v for k, v in self.params.items() if v is not None},
         )
@@ -88,7 +89,7 @@ class HuggingFaceModelLoader(BaseLoader):
         """Fetch the README content for a given model."""
         readme_url = self.README_BASE_URL.format(model_id=model_id)
         try:
-            response = requests.get(readme_url)
+            response = safe_requests.get(readme_url)
             response.raise_for_status()
             return response.text
         except requests.RequestException:

@@ -1,10 +1,9 @@
 """Util that calls Google Lens Search."""
 
 from typing import Any, Dict, Optional, cast
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, SecretStr, root_validator
 from langchain_core.utils import convert_to_secret_str, get_from_dict_or_env
+from security import safe_requests
 
 
 class GoogleLensAPIWrapper(BaseModel):
@@ -54,7 +53,7 @@ class GoogleLensAPIWrapper(BaseModel):
             "url": query,
         }
         queryURL = f"https://serpapi.com/search?engine={params['engine']}&api_key={params['api_key']}&url={params['url']}"
-        response = requests.get(queryURL)
+        response = safe_requests.get(queryURL)
 
         if response.status_code != 200:
             return "Google Lens search failed"

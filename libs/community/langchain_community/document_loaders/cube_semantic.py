@@ -7,6 +7,7 @@ import requests
 from langchain_core.documents import Document
 
 from langchain_community.document_loaders.base import BaseLoader
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -121,7 +122,7 @@ class CubeSemanticLoader(BaseLoader):
         }
 
         logger.info(f"Loading metadata from {self.cube_api_url}...")
-        response = requests.get(f"{self.cube_api_url}/meta", headers=headers)
+        response = safe_requests.get(f"{self.cube_api_url}/meta", headers=headers)
         response.raise_for_status()
         raw_meta_json = response.json()
         cube_data_objects = raw_meta_json.get("cubes", [])

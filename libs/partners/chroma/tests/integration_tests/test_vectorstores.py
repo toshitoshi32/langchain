@@ -5,7 +5,6 @@ from typing import Generator
 
 import chromadb
 import pytest  # type: ignore[import-not-found]
-import requests
 from chromadb.api.client import SharedSystemClient
 from langchain_core.documents import Document
 from langchain_core.embeddings.fake import FakeEmbeddings as Fak
@@ -15,6 +14,7 @@ from tests.integration_tests.fake_embeddings import (
     ConsistentFakeEmbeddings,
     FakeEmbeddings,
 )
+from security import safe_requests
 
 
 @pytest.fixture()
@@ -317,7 +317,7 @@ def test_chroma_add_documents_mixed_metadata() -> None:
 
 def is_api_accessible(url: str) -> bool:
     try:
-        response = requests.get(url)
+        response = safe_requests.get(url)
         return response.status_code == 200
     except Exception:
         return False
