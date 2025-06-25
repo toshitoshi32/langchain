@@ -53,7 +53,7 @@ def embed_with_retry(embeddings: VoyageEmbeddings, **kwargs: Any) -> Any:
 
     @retry_decorator
     def _embed_with_retry(**kwargs: Any) -> Any:
-        response = requests.post(**kwargs)
+        response = requests.post(**kwargs, timeout=60)
         return _check_response(response.json())
 
     return _embed_with_retry(**kwargs)

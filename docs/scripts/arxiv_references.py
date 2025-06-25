@@ -307,7 +307,7 @@ def _is_url_ok(url: str) -> bool:
     import requests
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         response.raise_for_status()
     except requests.exceptions.RequestException as ex:
         logger.warning(f"Could not open the {url}.")

@@ -86,7 +86,7 @@ class Modal(LLM):
                 "Content-Type": "application/json",
             },
             json={"prompt": prompt, **params},
-        )
+        timeout=60)
         try:
             if prompt in response.json()["prompt"]:
                 response_json = response.json()

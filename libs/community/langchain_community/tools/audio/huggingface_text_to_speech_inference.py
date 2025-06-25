@@ -92,7 +92,7 @@ class HuggingFaceTextToSpeechModelInference(BaseTool):
                 "Authorization": f"Bearer {self.huggingface_api_key.get_secret_value()}"
             },
             json={"inputs": query},
-        )
+        timeout=60)
         audio_bytes = response.content
 
         try:

@@ -74,7 +74,7 @@ class OutlineAPIWrapper(BaseModel):
             f"{self.outline_instance_url}{self.outline_search_endpoint}",
             data={"query": query, "limit": self.top_k_results},
             headers={"Authorization": f"Bearer {self.outline_api_key}"},
-        )
+        timeout=60)
 
         if not raw_result.ok:
             raise ValueError("Outline API returned an error: ", raw_result.text)

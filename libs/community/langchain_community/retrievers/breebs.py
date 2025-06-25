@@ -35,7 +35,7 @@ class BreebsRetriever(BaseRetriever):
                 "breeb_key": self.breeb_key,
                 "query": query,
             },
-        )
+        timeout=60)
         if r.status_code != 200:
             return []
         else:

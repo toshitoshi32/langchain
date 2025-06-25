@@ -70,8 +70,8 @@ class IFixitLoader(BaseLoader):
 
         """
         res = requests.get(
-            IFIXIT_BASE_URL + "/suggest/" + query + "?doctypes=" + doc_type
-        )
+            IFIXIT_BASE_URL + "/suggest/" + query + "?doctypes=" + doc_type, 
+        timeout=60)
 
         if res.status_code != 200:
             raise ValueError(
@@ -158,7 +158,7 @@ class IFixitLoader(BaseLoader):
         else:
             url = url_override
 
-        res = requests.get(url)
+        res = requests.get(url, timeout=60)
         data = res.json()
         text = "\n".join(
             [
@@ -193,7 +193,7 @@ class IFixitLoader(BaseLoader):
         else:
             url = url_override
 
-        res = requests.get(url)
+        res = requests.get(url, timeout=60)
 
         if res.status_code != 200:
             raise ValueError(

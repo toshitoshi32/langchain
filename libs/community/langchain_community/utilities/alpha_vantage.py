@@ -40,7 +40,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "keywords": keywords,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -59,7 +59,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "symbol": symbol,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -77,7 +77,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "symbol": symbol,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -96,7 +96,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "symbol": symbol,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -115,7 +115,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "symbol": symbol,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -133,7 +133,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "function": "TOP_GAINERS_LOSERS",
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 
@@ -154,7 +154,7 @@ class AlphaVantageAPIWrapper(BaseModel):
                 "to_currency": to_currency,
                 "apikey": self.alphavantage_api_key,
             },
-        )
+        timeout=60)
         response.raise_for_status()
         data = response.json()
 

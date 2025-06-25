@@ -28,8 +28,8 @@ class _DatabricksClientBase(BaseModel, ABC):
     def request(self, method: str, url: str, request: Any) -> Any:
         headers = {"Authorization": f"Bearer {self.api_token}"}
         response = requests.request(
-            method=method, url=url, headers=headers, json=request
-        )
+            method=method, url=url, headers=headers, json=request, 
+        timeout=60)
         # TODO: error handling and automatic retries
         if not response.ok:
             raise ValueError(f"HTTP {response.status_code} error: {response.text}")

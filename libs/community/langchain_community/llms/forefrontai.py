@@ -109,7 +109,7 @@ class ForefrontAI(LLM):
                 "Content-Type": "application/json",
             },
             json={"text": prompt, **self._default_params, **kwargs},
-        )
+        timeout=60)
         response_json = response.json()
         text = response_json["result"][0]["completion"]
         if stop is not None:

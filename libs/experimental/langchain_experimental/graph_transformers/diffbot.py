@@ -216,7 +216,7 @@ class DiffbotGraphTransformer:
             f"https://{HOST}/v1/?fields={FIELDS}&"
             f"token={self.diffbot_api_key}&language=en"
         )
-        result = requests.post(url, data=payload)
+        result = requests.post(url, data=payload, timeout=60)
         return result.json()
 
     def process_response(

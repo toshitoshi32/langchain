@@ -20,7 +20,7 @@ def detect_file_src_type(file_path: str) -> str:
 def download_audio_from_url(audio_url: str) -> str:
     """Download audio from url to local."""
     ext = audio_url.split(".")[-1]
-    response = requests.get(audio_url, stream=True)
+    response = requests.get(audio_url, stream=True, timeout=60)
     response.raise_for_status()
     with tempfile.NamedTemporaryFile(mode="wb", suffix=f".{ext}", delete=False) as f:
         for chunk in response.iter_content(chunk_size=8192):

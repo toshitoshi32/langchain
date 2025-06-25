@@ -105,7 +105,7 @@ class SolarEmbeddings(BaseModel, Embeddings):
         }
 
         # send request
-        response = requests.post(self.endpoint_url, headers=headers, json=payload)
+        response = requests.post(self.endpoint_url, headers=headers, json=payload, timeout=60)
         parsed_response = response.json()
 
         # check for errors

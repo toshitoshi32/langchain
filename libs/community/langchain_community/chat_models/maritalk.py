@@ -160,7 +160,7 @@ class ChatMaritalk(BaseChatModel):
             **kwargs,
         }
 
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, timeout=60)
 
         if response.ok:
             return response.json().get("answer", "No answer found")
@@ -250,7 +250,7 @@ class ChatMaritalk(BaseChatModel):
             data=json.dumps(data),
             headers=headers,
             stream=True,
-        )
+        timeout=60)
 
         if response.ok:
             for line in response.iter_lines():

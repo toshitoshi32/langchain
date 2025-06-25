@@ -147,7 +147,7 @@ class AI21(LLM):
             url=f"{base_url}/{self.model}/complete",
             headers={"Authorization": f"Bearer {self.ai21_api_key.get_secret_value()}"},
             json={"prompt": prompt, "stopSequences": stop, **params},
-        )
+        timeout=60)
         if response.status_code != 200:
             optional_detail = response.json().get("error")
             raise ValueError(

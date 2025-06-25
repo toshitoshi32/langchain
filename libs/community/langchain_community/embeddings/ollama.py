@@ -165,7 +165,7 @@ class OllamaEmbeddings(BaseModel, Embeddings):
                 f"{self.base_url}/api/embeddings",
                 headers=headers,
                 json={"model": self.model, "prompt": input, **self._default_params},
-            )
+            timeout=60)
         except requests.exceptions.RequestException as e:
             raise ValueError(f"Error raised by inference endpoint: {e}")
 

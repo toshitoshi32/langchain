@@ -76,7 +76,7 @@ class SearchApiAPIWrapper(BaseModel):
             url=request_details["url"],
             params=request_details["params"],
             headers=request_details["headers"],
-        )
+        timeout=60)
         response.raise_for_status()
         return response.json()
 

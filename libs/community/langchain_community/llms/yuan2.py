@@ -163,7 +163,7 @@ class Yuan2(LLM):
 
         # call api
         try:
-            response = requests.put(self.infer_api, headers=headers, data=data)
+            response = requests.put(self.infer_api, headers=headers, data=data, timeout=60)
         except requests.exceptions.RequestException as e:
             raise ValueError(f"Error raised by inference api: {e}")
 

@@ -54,7 +54,7 @@ class MetaphorSearchAPIWrapper(BaseModel):
             f"{METAPHOR_API_URL}/search",
             headers=headers,
             json=params,
-        )
+        timeout=60)
 
         response.raise_for_status()
         search_results = response.json()

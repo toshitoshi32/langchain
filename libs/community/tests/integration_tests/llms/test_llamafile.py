@@ -14,7 +14,7 @@ LLAMAFILE_SERVER_BASE_URL = os.getenv(
 
 def _ping_llamafile_server() -> bool:
     try:
-        response = requests.get(LLAMAFILE_SERVER_BASE_URL)
+        response = requests.get(LLAMAFILE_SERVER_BASE_URL, timeout=60)
         response.raise_for_status()
     except (ConnectionError, HTTPError):
         return False

@@ -101,7 +101,7 @@ class BiliBiliLoader(BaseLoader):
             if not sub_url.startswith("http"):
                 sub_url = "https:" + sub_url
 
-            response = requests.get(sub_url)
+            response = requests.get(sub_url, timeout=60)
             if response.status_code == 200:
                 raw_sub_titles = json.loads(response.content).get("body", [])
                 raw_transcript = " ".join([c["content"] for c in raw_sub_titles])

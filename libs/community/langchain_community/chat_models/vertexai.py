@@ -131,7 +131,7 @@ def _parse_chat_history_gemini(
                     )
                 image = Image.from_bytes(base64.b64decode(encoded))
             elif _is_url(path):
-                response = requests.get(path)
+                response = requests.get(path, timeout=60)
                 response.raise_for_status()
                 image = Image.from_bytes(response.content)
             else:

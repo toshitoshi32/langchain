@@ -270,7 +270,7 @@ class SearxSearchWrapper(BaseModel):
             headers=self.headers,
             params=params,
             verify=not self.unsecure,
-        )
+        timeout=60)
         # test if http result is ok
         if not raw_result.ok:
             raise ValueError("Searx API returned an error: ", raw_result.text)

@@ -92,7 +92,7 @@ class ChatAnyscale(ChatOpenAI):
             headers={
                 "Authorization": f"Bearer {anyscale_api_key}",
             },
-        )
+        timeout=60)
 
         if models_response.status_code != 200:
             raise ValueError(

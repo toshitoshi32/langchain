@@ -267,7 +267,7 @@ class LLMonitorCallbackHandler(BaseCallbackHandler):
             return None
 
         try:
-            res = requests.get(f"{self.__api_url}/api/app/{self.__app_id}")
+            res = requests.get(f"{self.__api_url}/api/app/{self.__app_id}", timeout=60)
             if not res.ok:
                 raise ConnectionError()
         except Exception:

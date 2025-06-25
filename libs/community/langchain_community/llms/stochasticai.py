@@ -111,7 +111,7 @@ class StochasticAI(LLM):
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
-        )
+        timeout=60)
         response_post.raise_for_status()
         response_post_json = response_post.json()
         completed = False
@@ -123,7 +123,7 @@ class StochasticAI(LLM):
                     "Accept": "application/json",
                     "Content-Type": "application/json",
                 },
-            )
+            timeout=60)
             response_get.raise_for_status()
             response_get_json = response_get.json()["data"]
             text = response_get_json.get("completion")

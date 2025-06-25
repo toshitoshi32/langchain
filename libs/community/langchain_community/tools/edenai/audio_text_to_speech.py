@@ -76,7 +76,7 @@ class EdenAiTextToSpeechTool(EdenaiTool):
         return values
 
     def _download_wav(self, url: str, save_path: str) -> None:
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         if response.status_code == 200:
             with open(save_path, "wb") as f:
                 f.write(response.content)

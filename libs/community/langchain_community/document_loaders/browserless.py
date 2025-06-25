@@ -37,7 +37,7 @@ class BrowserlessLoader(BaseLoader):
                             }
                         ],
                     },
-                )
+                timeout=60)
                 yield Document(
                     page_content=response.json()["data"][0]["results"][0]["text"],
                     metadata={
@@ -53,7 +53,7 @@ class BrowserlessLoader(BaseLoader):
                     json={
                         "url": url,
                     },
-                )
+                timeout=60)
 
                 yield Document(
                     page_content=response.text,

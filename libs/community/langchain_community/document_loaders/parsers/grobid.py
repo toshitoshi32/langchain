@@ -27,7 +27,7 @@ class GrobidParser(BaseBlobParser):
         self.segment_sentences = segment_sentences
         self.grobid_server = grobid_server
         try:
-            requests.get(grobid_server)
+            requests.get(grobid_server, timeout=60)
         except requests.exceptions.RequestException:
             logger.error(
                 "GROBID server does not appear up and running, \

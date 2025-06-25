@@ -80,7 +80,7 @@ class HuggingFaceModelLoader(BaseLoader):
         response = requests.get(
             self.BASE_URL,
             params={k: v for k, v in self.params.items() if v is not None},
-        )
+        timeout=60)
         response.raise_for_status()
         return response.json()
 
@@ -88,7 +88,7 @@ class HuggingFaceModelLoader(BaseLoader):
         """Fetch the README content for a given model."""
         readme_url = self.README_BASE_URL.format(model_id=model_id)
         try:
-            response = requests.get(readme_url)
+            response = requests.get(readme_url, timeout=60)
             response.raise_for_status()
             return response.text
         except requests.RequestException:

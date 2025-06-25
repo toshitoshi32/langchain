@@ -122,7 +122,7 @@ class ClovaEmbeddings(BaseModel, Embeddings):
             f"{self.endpoint_url}/{self.model}/{app_id}",
             headers=headers,
             json=payload,
-        )
+        timeout=60)
 
         # check for errors
         if response.status_code == 200:
